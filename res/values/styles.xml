@@ -1,0 +1,48 @@
+<resources>
+
+  <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="spinnerStyle">@style/SpinnerStyleHolo</item>
+  </style>
+  
+  <style name="SpinnerStyleHolo" parent="@android:style/Widget.Holo.Light.Spinner">
+    <item name="android:background">@drawable/abc_spinner_textfield_background_material</item>
+    <!-- <item name="android:background">#ddd</item> -->
+  </style>
+  
+  
+  <!-- components -->
+  
+  <style name="ClockEditTextStyle">
+    <item name="android:inputType">number|textNoSuggestions</item>
+    <item name="android:selectAllOnFocus">true</item>
+    <item name="android:singleLine">true</item>
+    
+    <item name="android:layout_width">@dimen/clock_text_width</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:gravity">center</item>
+    <item name="android:textSize">@dimen/clock_text_font_size</item>
+    <item name="android:textColor">@color/clock_text_color</item>
+    <item name="android:background">@null</item>
+  </style>
+  
+  <style name="ClockSeparatorTextStyle">
+    <item name="android:paddingBottom">@dimen/clock_separator_padding_bottom</item>
+    <item name="android:gravity">center</item>
+    <item name="android:text">:</item>
+    <item name="android:textColor">#555</item>
+    <item name="android:textSize">@dimen/clock_separator_font_size</item>
+    <item name="android:textStyle">bold</item>
+  </style>
+  
+
+  <style name="AlarmPresetTextStyle">
+    <item name="android:paddingTop">2dp</item>
+    <item name="android:paddingBottom">2dp</item>
+    <item name="android:layout_margin">0dp</item>
+    <item name="android:textSize">@dimen/alarm_preset_font_size</item>
+    <item name="android:textColor">#999</item>
+  </style>
+
+</resources>

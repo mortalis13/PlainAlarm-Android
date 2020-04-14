@@ -1,0 +1,60 @@
+
+// Gradle 4.3.1
+// jdk1.8.0_91
+
+apply plugin: 'com.android.library'
+
+buildscript {
+  repositories {
+    google()
+    jcenter()
+    mavenLocal()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:3.0.1'
+  }
+}
+
+allprojects {
+  repositories {
+    google()
+    jcenter()
+    // maven { url 'https://maven.google.com' }
+  }
+}
+
+
+// -- app
+android {
+  compileSdkVersion 26
+  
+  defaultConfig {
+    vectorDrawables.useSupportLibrary = true
+  }
+  
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  
+  sourceSets {
+    main {
+      manifest.srcFile 'AndroidManifest.xml'
+      java.srcDirs 'src'
+      res.srcDirs 'res'
+      jniLibs.srcDirs 'libs'
+      assets.srcDirs 'assets'
+    }
+  }
+}
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  
+  implementation 'com.android.support:appcompat-v7:27.0.2'
+  implementation 'com.android.support:support-v4:27.0.2'
+  implementation 'com.android.support:recyclerview-v7:27.0.2'
+}

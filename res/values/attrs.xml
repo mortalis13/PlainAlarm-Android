@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <attr name="timePickerStyle" format="reference" />
+  
+  <declare-styleable name="TimePicker">
+    <attr name="internalLayout" format="reference"  />
+    
+    <attr name="_dialogMode" format="boolean" />
+    
+    <attr name="_timePickerMode" format="enum">
+      <enum name="spinner" value="1" />
+      <enum name="clock" value="2" />
+    </attr>
+  </declare-styleable>
+</resources>

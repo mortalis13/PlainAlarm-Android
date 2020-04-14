@@ -1,0 +1,270 @@
+package org.home.plainalarm;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import org.apache.commons.io.FilenameUtils;
+
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.Log;
+import android.widget.Toast;
+
+public class Fun {
+  
+  public static boolean fileExists(String filePath) {
+    return new File(filePath).exists();
+  }
+  
+  public static String getParentFolder(String filePath) {
+    return new File(filePath).getParentFile().getAbsolutePath();
+  }
+  
+  public static String getBaseFileName(String filePath) {
+    return FilenameUtils.getBaseName(filePath);
+  }
+  
+  public static String getFileExt(String filePath) {
+    return FilenameUtils.getExtension(filePath);
+  }
+  
+  public static List<String> getSoundFiles(String folderPath) {
+    List<String> result = new ArrayList<>();
+    
+    File[] files = new File(folderPath).listFiles(new FileFilter() {
+      @Override
+      public boolean accept(File file) {
+        if (!file.isDirectory() && file.canRead()) {
+          String fileExt = FilenameUtils.getExtension(file.getName());
+          for (String ext: Vars.AUDIO_EXTS) {
+            if (fileExt.equals(ext)) return true;
+          }
+        }
+        
+        return false;
+      }
+    });
+    
+    for (File file: files) {
+      result.add(file.getAbsolutePath());
+    }
+    
+    return result;
+  }
+  
+  
+  public static int getRandomInt(int from, int to) {
+    return from + new Random().nextInt(to - from + 1);
+  }
+  
+  public static void saveSharedPref(Context context, String key, String value) {
+    if (context == null) return;
+    SharedPreferences sharedPreferences = context.getSharedPreferences(Vars.PREFS_FILE, 0);
+    SharedPreferences.Editor editor = sharedPreferences.edit();
+    editor.putString(key, value);
+    editor.commit();
+  }
+  
+  public static void saveSharedPref(Context context, String key, long value) {
+    if (context == null) return;
+    SharedPreferences sharedPreferences = context.getSharedPreferences(Vars.PREFS_FILE, 0);
+    SharedPreferences.Editor editor = sharedPreferences.edit();
+    editor.putLong(key, value);
+    editor.commit();
+  }
+  
+  public static void saveSharedPref(Context context, String key, boolean value) {
+    if (context == null) return;
+    SharedPreferences sharedPreferences = context.getSharedPreferences(Vars.PREFS_FILE, 0);
+    SharedPreferences.Editor editor = sharedPreferences.edit();
+    editor.putBoolean(key, value);
+    editor.commit();
+  }
+  
+  public static String getSharedPref(Context context, String key) {
+    if (context == null) return null;
+    SharedPreferences sharedPreferences = context.getSharedPreferences(Vars.PREFS_FILE, 0);
+    return sharedPreferences.getString(key, null);
+  }
+  
+  public static long getSharedPrefLong(Context context, String key) {
+    if (context == null) return 0;
+    SharedPreferences sharedPreferences = context.getSharedPreferences(Vars.PREFS_FILE, 0);
+    return sharedPreferences.getLong(key, 0);
+  }
+  
+  public static boolean getSharedPrefBool(Context context, String key) {
+    if (context == null) return false;
+    SharedPreferences sharedPreferences = context.getSharedPreferences(Vars.PREFS_FILE, 0);
+    return sharedPreferences.getBoolean(key, false);
+  }
+  
+  
+  public static void toast(Context context, String msg) {
+    if (context == null) return;
+    Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+  }
+  
+  
+  private static void log(Object value, Vars.LogLevel level) {
+    String msg = null;
+    if (value != null) {
+      msg = value.toString();
+      if (Vars.APP_LOG_LEVEL == Vars.LogLevel.VERBOSE) {
+        msg += " " + getCallerLogInfo();
+      }
+    }
+    
+    try {
+      if (Vars.APP_LOG_LEVEL.compareTo(level) <= 0) {
+        switch (level) {
+        case INFO:
+          Log.i(Vars.APP_LOG_TAG, msg);
+          break;
+        case DEBUG:
+          Log.d(Vars.APP_LOG_TAG, msg);
+          break;
+        case WARN:
+          Log.w(Vars.APP_LOG_TAG, msg);
+          break;
+        case ERROR:
+          Log.e(Vars.APP_LOG_TAG, msg);
+          break;
+        }
+      }
+    }
+    catch (Exception e) {
+      System.out.println(Vars.APP_LOG_TAG + " :: " + msg);
+    }
+  }
+  
+  
+  public static void log(String format, Object... values) {
+    try {
+      log(String.format(format, values));
+    }
+    catch (Exception e) {
+      loge("Fun.log(format, values) Exception, " + e.getMessage());
+      e.printStackTrace();
+    }
+  }
+  
+  public static void logd(String format, Object... values) {
+    try {
+      logd(String.format(format, values));
+    }
+    catch (Exception e) {
+      loge("Fun.logd(format, values) Exception, " + e.getMessage());
+      e.printStackTrace();
+    }
+  }
+  
+  public static void loge(String format, Object... values) {
+    try {
+      loge(String.format(format, values));
+    }
+    catch (Exception e) {
+      loge("Fun.loge(format, values) Exception, " + e.getMessage());
+      e.printStackTrace();
+    }
+  }
+  
+  public static void log(Object value) {
+    log(value, Vars.LogLevel.INFO);
+  }
+  
+  public static void logd(Object value) {
+    log(value, Vars.LogLevel.DEBUG);
+  }
+  
+  public static void logw(Object value) {
+    log(value, Vars.LogLevel.WARN);
+  }
+  
+  public static void loge(Object value) {
+    log(value, Vars.LogLevel.ERROR);
+  }
+  
+  
+  private static String getCallerLogInfo() {
+    String result = "";
+    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+    
+    if (stackTrace != null && stackTrace.length > 1){
+      boolean currentFound = false;
+      
+      int len = stackTrace.length;
+      for (int i = 0; i < len; i++) {
+        StackTraceElement stackElement = stackTrace[i];
+        String className = stackElement.getClassName();
+        
+        if (className != null && className.equals(Fun.class.getName())) {
+          currentFound = true;
+        }
+        
+        if (currentFound && className != null && !className.equals(Fun.class.getName())) {
+          String resultClass = stackElement.getClassName();
+          String method = stackElement.getMethodName();
+          int line = stackElement.getLineNumber();
+          result = "[" + resultClass + ":" + method + "():" + line + "]";
+          break;
+        }
+      }
+    }
+    
+    return result;
+  }
+  
+  
+  public static void showNotification(Context context, int id, boolean fixed, String text) {
+    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+    Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+    
+    mBuilder.setSmallIcon(R.drawable.ic_notifications_none_white_24dp);
+    mBuilder.setLargeIcon(largeIcon);
+    mBuilder.setOngoing(fixed);
+    
+    mBuilder.setContentTitle(Vars.NOTIFICATION_TITLE);
+    mBuilder.setContentText(text);
+    
+    NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    mNotificationManager.notify(id, mBuilder.build());
+  }
+  
+  public static void showPlayerNotification(Context context, int id, String text) {
+    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+    Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+    
+    mBuilder.setSmallIcon(R.drawable.ic_notifications_white_24dp);
+    mBuilder.setLargeIcon(largeIcon);
+    mBuilder.setOngoing(false);
+    
+    mBuilder.setContentTitle(Vars.PLAYER_NOTIFICATION_TITLE);
+    mBuilder.setContentText(text);
+    
+    NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    mNotificationManager.notify(id, mBuilder.build());
+  }
+  
+  public static void cancelNotification(Context context, int id) {
+    NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    mNotificationManager.cancel(id);
+  }
+  
+  public static void screenWakeup(Context context) {
+    NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    mNotificationManager.cancel(id);
+  }
+  
+}

@@ -1,0 +1,118 @@
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:paddingTop="0dp"
+  android:paddingRight="10dp"
+  android:paddingBottom="16dp"
+  android:paddingLeft="10dp"
+  android:orientation="vertical"
+  android:background="@color/dialog_container_background"
+>
+<LinearLayout
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  android:background="@color/dialog_background"
+>
+  
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:background="@color/dialog_title_background"
+  >
+    <org.home.file_chooser_lib.components.TitleScrollView
+      android:id="@+id/titleScroller"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:fillViewport="true"
+      android:scrollbars="none"
+      android:overScrollMode="never"
+      android:measureAllChildren="false"
+      android:gravity="center_vertical"
+      android:smoothScrollbar="false"
+    >
+    <TextView
+      android:id="@+id/dialogTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:paddingTop="4dp"
+      android:paddingBottom="4dp"
+      android:gravity="center_vertical"
+      android:textSize="20dp"
+      android:textColor="#777"
+    />
+    </org.home.file_chooser_lib.components.TitleScrollView>
+  </LinearLayout>
+  
+  
+  <include layout="@layout/divider_horizontal_include"/>
+  
+  <LinearLayout
+    android:id="@+id/actionBar"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="false"
+  >
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="false"
+  >
+    <LinearLayout
+      android:id="@+id/actionPanel1"
+      android:orientation="horizontal"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+    >
+      <Button
+        android:id="@+id/bAddFolder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/button_add"
+        style="@style/DialogActionButton"
+      />
+      <include layout="@layout/divider_vertical_include"/>
+    </LinearLayout>
+    
+    <LinearLayout
+      android:id="@+id/actionPanel2"
+      android:orientation="horizontal"
+      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+    >
+      <Button
+        android:id="@+id/bSelect"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/button_select"
+        style="@style/DialogActionButton"
+      />
+    </LinearLayout>
+  </LinearLayout>
+  <include layout="@layout/divider_horizontal_include"/>
+  </LinearLayout>
+  
+  
+  <org.home.file_chooser_lib.components.PickerRecyclerView
+    android:id="@+id/listItems"
+    android:scrollbars="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+  />
+  
+</LinearLayout>
+</LinearLayout>

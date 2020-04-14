@@ -1,0 +1,15 @@
+<resources>
+  <dimen name="main_padding_top">0dp</dimen>
+  <dimen name="main_padding_right">4dp</dimen>
+  <dimen name="main_padding_bottom">4dp</dimen>
+  <dimen name="main_padding_left">4dp</dimen>
+  
+  <dimen name="clock_text_width">50dp</dimen>
+  <dimen name="clock_text_font_size">44dp</dimen>
+  <dimen name="clock_separator_padding_bottom">3dp</dimen>
+  <dimen name="clock_separator_font_size">34dp</dimen>
+  
+  <dimen name="alarm_preset_padding_right">6dp</dimen>
+  <dimen name="alarm_preset_padding_left">6dp</dimen>
+  <dimen name="alarm_preset_font_size">28dp</dimen>
+</resources>

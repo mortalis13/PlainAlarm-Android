@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="transparent">@android:color/transparent</color>
+  
+  <color name="plain_pref_background_disabled">#ddd</color>
+  <color name="plain_pref_background_disabled_pressed">#ddd</color>
+  <color name="plain_pref_background_enabled">#f9dfb8</color>
+  <color name="plain_pref_background_enabled_pressed">#f9dfb8</color>
+  <!-- <color name="plain_pref_background_enabled_pressed">#f8d197</color> -->
+  
+  <color name="toggle_button_background_enabled">#bce1d1</color>
+  <color name="toggle_button_background_enabled_pressed">#bce1d1</color>
+  
+  <!-- <color name="alarm_state_panel_start_pressed">#75ab79</color> -->
+  <color name="alarm_state_panel_start_pressed">#8bb88f</color>
+  <color name="alarm_state_panel_start_default">#8bb88f</color>
+  <!-- <color name="alarm_state_panel_stop_pressed">#c35c5c</color> -->
+  <color name="alarm_state_panel_stop_pressed">#d37575</color>
+  <color name="alarm_state_panel_stop_default">#d37575</color>
+  
+  <!-- <color name="clock_edit_text_background_default">#ccc</color> -->
+  <color name="clock_edit_text_background_default">@color/transparent</color>
+  <color name="clock_text_color">#777</color>
+  
+  <color name="volume_list_item_text">#666</color>
+  <color name="volume_list_border">#aaa</color>
+  <color name="volume_item_background_activated">#ddd</color>
+  <color name="volume_item_background_pressed">#ccc</color>
+  <color name="volume_item_background_default">#fff</color>
+  
+  <color name="settings_button_background">#e4e4e4</color>
+</resources>

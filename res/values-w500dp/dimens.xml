@@ -1,0 +1,3 @@
+<resources>
+  <dimen name="alarm_state_button_height">300dp</dimen>
+</resources>
