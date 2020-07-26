@@ -5,6 +5,10 @@ public class Vars {
   public static boolean DEBUG_MODE;
   // public static boolean DEBUG_MODE = true;
   
+  public static int SNOOZE_TIME_DEBUG = 30;
+  
+  // -------------------
+  
   public enum LogLevel {VERBOSE, DEBUG, INFO, WARN, ERROR};
   public static final LogLevel APP_LOG_LEVEL = LogLevel.DEBUG;
   

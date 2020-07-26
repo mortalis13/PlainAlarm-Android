@@ -435,7 +435,7 @@ public class MainActivity extends AppCompatActivity {
     boolean snoozeOn = Fun.getSharedPrefBool(context, Vars.PREF_KEY_SNOOZE_ON);
     if (snoozeOn && isAlarmWakeup) {
       int snoozeTime = Vars.SNOOZE_DEFAULT_TIME;
-      if (Vars.DEBUG_MODE) snoozeTime = 10;
+      if (Vars.DEBUG_MODE) snoozeTime = Vars.SNOOZE_TIME_DEBUG;
       snoozeAlarm(snoozeTime);
     }
     isAlarmWakeup = false;
@@ -449,13 +449,6 @@ public class MainActivity extends AppCompatActivity {
     setMinVolume();
     playSound();
     animateClock();
-    
-    // PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-    // int flags = PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE;
-    // PowerManager.WakeLock wl = pm.newWakeLock(flags, "AlarmReceiver");
-    // // wl.acquire(2000);
-    // wl.acquire();
-    // wl.release();
   }
   
   
@@ -825,6 +818,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onStop() {
     Fun.logd("MainActivity.onStop()");
     super.onStop();
+    // finish();
   }
   
   @Override

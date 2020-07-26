@@ -20,6 +20,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.widget.Toast;
+import android.os.PowerManager;
 
 public class Fun {
   
@@ -263,8 +264,12 @@ public class Fun {
   }
   
   public static void screenWakeup(Context context) {
-    NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-    mNotificationManager.cancel(id);
+    PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+    int wl_flags = PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE;
+    PowerManager.WakeLock wl = pm.newWakeLock(wl_flags, "ScreenWakeupTag");
+    // wl.acquire(2000);
+    wl.acquire();
+    wl.release();
   }
   
 }
