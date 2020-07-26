@@ -18,5 +18,6 @@
   <dimen name="alarm_preset_padding_left">20dp</dimen>
   <dimen name="alarm_preset_font_size">32dp</dimen>
   
+  <dimen name="settings_button_width">96dp</dimen>
   <dimen name="settings_button_radius">4dp</dimen>
 </resources>

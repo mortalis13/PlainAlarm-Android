@@ -22,11 +22,11 @@
   <color name="clock_edit_text_background_default">@color/transparent</color>
   <color name="clock_text_color">#777</color>
   
-  <color name="volume_list_item_text">#666</color>
-  <color name="volume_list_border">#aaa</color>
-  <color name="volume_item_background_activated">#ddd</color>
-  <color name="volume_item_background_pressed">#ccc</color>
-  <color name="volume_item_background_default">#fff</color>
+  <color name="popup_list_item_text">#666</color>
+  <color name="popup_list_border">#aaa</color>
+  <color name="popup_item_background_activated">#eee</color>
+  <color name="popup_item_background_pressed">#ddd</color>
+  <color name="popup_item_background_default">#fff</color>
   
   <color name="settings_button_background">#e4e4e4</color>
 </resources>

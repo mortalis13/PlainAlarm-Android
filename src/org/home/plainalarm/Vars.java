@@ -32,6 +32,8 @@ public class Vars {
   public static final String PREF_KEY_ALARM_PRESET = "PREF_KEY_ALARM_PRESET";
   public static final String PREF_KEY_ALARM_TIME_MILLIS = "PREF_KEY_ALARM_TIME_MILLIS";
   public static final String PREF_KEY_ALARM_VOLUME = "PREF_KEY_ALARM_VOLUME";
+  public static final String PREF_KEY_SNOOZE_TIME = "PREF_KEY_SNOOZE_TIME";
+  public static final String PREF_KEY_SNOOZE_TIME_POS = "PREF_KEY_SNOOZE_TIME_POS";
   public static final String PREF_KEY_SNOOZE_ON = "PREF_KEY_SNOOZE_ON";
   
   public static final String[] PREF_ALARM_PRESET_TAGS = new String[] {

@@ -221,33 +221,24 @@
       android:orientation="horizontal"
       android:gravity="center"
     >
-    </LinearLayout>
-    
-    <LinearLayout
-      android:layout_width="0dp"
-      android:layout_height="match_parent"
-      android:layout_weight="1"
-      android:orientation="horizontal"
-      android:gravity="center"
-    >
       <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
       >
         <Spinner
           android:id="@+id/volumeSelector"
-          android:layout_width="wrap_content"
+          android:layout_width="@dimen/settings_button_width"
           android:layout_height="match_parent"
-          android:background="@drawable/volume_selector_background"
-          android:minWidth="90dp"
-          android:paddingRight="4dp"
+          android:background="@drawable/settings_spinner_background"
+          android:dropDownVerticalOffset="-3dp"
         />
         
         <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="left|center_vertical"
-          android:layout_marginLeft="14dp"
+          android:layout_marginLeft="18dp"
           android:src="@drawable/ic_equalizer_black_24dp"
           android:tint="#666"
         />
@@ -263,12 +254,43 @@
     >
       <ImageButton
         android:id="@+id/bSnooze"
-        android:layout_width="84dp"
+        android:layout_width="@dimen/settings_button_width"
         android:layout_height="match_parent"
         android:src="@drawable/ic_snooze_black_36dp"
         android:tint="#777"
         android:background="@drawable/toggle_button_disabled"
       />
+    </LinearLayout>
+    
+    <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:orientation="horizontal"
+      android:gravity="center"
+    >
+      <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+      >
+        <Spinner
+          android:id="@+id/snoozeTimeSelector"
+          android:layout_width="@dimen/settings_button_width"
+          android:layout_height="match_parent"
+          android:background="@drawable/settings_spinner_background"
+          android:dropDownVerticalOffset="-3dp"
+        />
+        
+        <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="left|center_vertical"
+          android:layout_marginLeft="14dp"
+          android:src="@drawable/ic_snooze_black_24dp"
+          android:tint="#666"
+        />
+      </FrameLayout>
     </LinearLayout>
   </LinearLayout>
   

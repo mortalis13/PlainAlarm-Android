@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
   private LinearLayout soundSelector;
   private LinearLayout soundFolderSelector;
   private Spinner volumeSelector;
+  private Spinner snoozeTimeSelector;
   private ImageButton bSnooze;
   private LinearLayout panelAlarmState;
   
@@ -182,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
     soundSelector = findViewById(R.id.soundSelector);
     soundFolderSelector = findViewById(R.id.soundFolderSelector);
     volumeSelector = findViewById(R.id.volumeSelector);
+    snoozeTimeSelector = findViewById(R.id.snoozeTimeSelector);
     bSnooze = findViewById(R.id.bSnooze);
     panelAlarmState = findViewById(R.id.panelAlarmState);
     
@@ -291,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
     alarmPresetText4.setTag(Vars.PREF_ALARM_PRESET_TAGS[3]);
     
     initVolumeSelector();
+    initSnoozeTimeSelector();
   }
   
   
@@ -359,6 +362,40 @@ public class MainActivity extends AppCompatActivity {
     }, 1000);
   }
   
+  private void initSnoozeTimeSelector() {
+    int listPos = (int) Fun.getSharedPrefLong(context, Vars.PREF_KEY_SNOOZE_TIME_POS);
+    
+    List<String> items = new ArrayList<String>() {{
+      add("3m");
+      add("5m");
+      add("10m");
+      add("15m");
+      add("20m");
+    }};
+
+    SnoozeTimeListAdapter adapter = new SnoozeTimeListAdapter(this, items);
+    snoozeTimeSelector.setAdapter(adapter);
+    snoozeTimeSelector.setSelection(listPos);
+    
+    snoozeTimeSelector.postDelayed(() -> {
+      snoozeTimeSelector.setOnItemSelectedListener(new OnItemSelectedListener() {
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+          int snoozeTime = Vars.SNOOZE_DEFAULT_TIME;
+          try {
+            String item = (String) parent.getItemAtPosition(position);
+            snoozeTime = Integer.parseInt(item.replace("m", "")) * 60;
+          }
+          catch (Exception e) {
+            e.printStackTrace();
+          }
+          Fun.saveSharedPref(context, Vars.PREF_KEY_SNOOZE_TIME_POS, position);
+          Fun.saveSharedPref(context, Vars.PREF_KEY_SNOOZE_TIME, snoozeTime);
+        }
+        public void onNothingSelected(AdapterView<?> parent) {}
+      });
+    }, 1000);
+  }
+  
   private void setMinVolume() {
     int alarmVolume = volumeSelector.getSelectedItemPosition();
     // if (alarmVolume <= 0) alarmVolume = 1;
@@ -416,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
   }
   
   private void snoozeAlarm(int seconds) {
-    Fun.logd("snoozeAlarm()");
+    Fun.logd("snoozeAlarm(): " + seconds);
     Calendar calendar = Calendar.getInstance();
     calendar.add(Calendar.SECOND, seconds);
     long timeMillis = calendar.getTimeInMillis();
@@ -434,7 +471,8 @@ public class MainActivity extends AppCompatActivity {
     
     boolean snoozeOn = Fun.getSharedPrefBool(context, Vars.PREF_KEY_SNOOZE_ON);
     if (snoozeOn && isAlarmWakeup) {
-      int snoozeTime = Vars.SNOOZE_DEFAULT_TIME;
+      int snoozeTime = (int) Fun.getSharedPrefLong(context, Vars.PREF_KEY_SNOOZE_TIME);
+      if (snoozeTime == 0) snoozeTime = Vars.SNOOZE_DEFAULT_TIME;
       if (Vars.DEBUG_MODE) snoozeTime = Vars.SNOOZE_TIME_DEBUG;
       snoozeAlarm(snoozeTime);
     }
@@ -771,6 +809,42 @@ public class MainActivity extends AppCompatActivity {
     private List<String> items;
 
     public VolumeListAdapter(Context context, List<String> items) {
+      super(context, ITEM_LAYOUT, items);
+      this.items = items;
+      this.context = context;
+    }
+
+    public View getView(int position, View convertView, ViewGroup parent) {
+      return createView(position, convertView, parent, SPINNER_LAYOUT, false);
+    }
+
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+      return createView(position, convertView, parent, ITEM_LAYOUT, true);
+    }
+
+    private View createView(int position, View convertView, ViewGroup parent, int layoutId, boolean dropdownView) {
+      if (convertView == null) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = inflater.inflate(layoutId, parent, false);
+      }
+      
+      TextView itemText = convertView.findViewById(R.id.itemText);
+      String item = getItem(position);
+      if (item != null) {
+        itemText.setText(item);
+      }
+      
+      return convertView;
+    }
+  }
+  
+  class SnoozeTimeListAdapter extends ArrayAdapter<String> {
+    private static final int ITEM_LAYOUT = R.layout.snooze_time_list_item;
+    private static final int SPINNER_LAYOUT = R.layout.snooze_time_list_view;
+    private Context context;
+    private List<String> items;
+    
+    public SnoozeTimeListAdapter(Context context, List<String> items) {
       super(context, ITEM_LAYOUT, items);
       this.items = items;
       this.context = context;
