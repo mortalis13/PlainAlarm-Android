@@ -102,7 +102,7 @@ public class Fun {
   public static long getSharedPrefLong(Context context, String key) {
     if (context == null) return 0;
     SharedPreferences sharedPreferences = context.getSharedPreferences(Vars.PREFS_FILE, 0);
-    return sharedPreferences.getLong(key, 0);
+    return sharedPreferences.getLong(key, -1);
   }
   
   public static boolean getSharedPrefBool(Context context, String key) {

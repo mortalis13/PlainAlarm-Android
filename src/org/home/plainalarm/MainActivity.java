@@ -342,6 +342,7 @@ public class MainActivity extends AppCompatActivity {
     int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
     // int curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     int curVolume = (int) Fun.getSharedPrefLong(context, Vars.PREF_KEY_ALARM_VOLUME);
+    if (curVolume == -1) curVolume = Vars.DEFAULT_ALARM_VOLUME;
     
     List<String> items = new ArrayList<>();
     for (int i = 0; i <= maxVolume; i++) {
@@ -364,6 +365,10 @@ public class MainActivity extends AppCompatActivity {
   
   private void initSnoozeTimeSelector() {
     int listPos = (int) Fun.getSharedPrefLong(context, Vars.PREF_KEY_SNOOZE_TIME_POS);
+    if (listPos == -1) {
+      listPos = 0;
+      Fun.saveSharedPref(context, Vars.PREF_KEY_SNOOZE_TIME, Vars.DEFAULT_SNOOZE_TIME);
+    }
     
     List<String> items = new ArrayList<String>() {{
       add("3m");
@@ -380,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
     snoozeTimeSelector.postDelayed(() -> {
       snoozeTimeSelector.setOnItemSelectedListener(new OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-          int snoozeTime = Vars.SNOOZE_DEFAULT_TIME;
+          int snoozeTime = Vars.DEFAULT_SNOOZE_TIME;
           try {
             String item = (String) parent.getItemAtPosition(position);
             snoozeTime = Integer.parseInt(item.replace("m", "")) * 60;
@@ -472,7 +477,7 @@ public class MainActivity extends AppCompatActivity {
     boolean snoozeOn = Fun.getSharedPrefBool(context, Vars.PREF_KEY_SNOOZE_ON);
     if (snoozeOn && isAlarmWakeup) {
       int snoozeTime = (int) Fun.getSharedPrefLong(context, Vars.PREF_KEY_SNOOZE_TIME);
-      if (snoozeTime == 0) snoozeTime = Vars.SNOOZE_DEFAULT_TIME;
+      if (snoozeTime == -1) snoozeTime = Vars.DEFAULT_SNOOZE_TIME;
       if (Vars.DEBUG_MODE) snoozeTime = Vars.SNOOZE_TIME_DEBUG;
       snoozeAlarm(snoozeTime);
     }
