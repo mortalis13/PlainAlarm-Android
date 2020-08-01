@@ -1,7 +1,7 @@
 
 # PlainAlarm
 
-![Icon](_img/icon.png)
+![Icon](_img/icon2.png)
 
 Simple Android alarm with handy controls.
 
