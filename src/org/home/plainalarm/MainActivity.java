@@ -304,14 +304,17 @@ public class MainActivity extends AppCompatActivity {
       
       String alarmText = Fun.getSharedPref(context, Vars.PREF_KEY_ALARM_TEXT);
       if (alarmText == null) alarmText = Vars.DEFAULT_ALARM_TEXT;
+      if (Vars.DEMO_MODE) alarmText = Vars.DEMO_TIME;
       updateAlarmText(alarmText);
       
       String soundPath = Fun.getSharedPref(context, Vars.PREF_KEY_SOUND_FILE_PATH);
       if (soundPath == null) soundPath = "";
+      if (Vars.DEMO_MODE) soundPath = Vars.DEMO_SOUND_PATH;
       soundPathView.setText(soundPath);
       
       String soundFolderPath = Fun.getSharedPref(context, Vars.PREF_KEY_SOUND_FOLDER_PATH);
       if (soundFolderPath == null) soundFolderPath = "";
+      if (Vars.DEMO_MODE) soundFolderPath = Vars.DEMO_SOUND_FOLDER_PATH;
       soundFolderPathView.setText(soundFolderPath);
       
       updateSnoozeState(Fun.getSharedPrefBool(context, Vars.PREF_KEY_SNOOZE_ON));
@@ -322,6 +325,12 @@ public class MainActivity extends AppCompatActivity {
         String alarmPresetText = Fun.getSharedPref(context, Vars.PREF_KEY_ALARM_PRESET + tag);
         if (alarmPresetText == null) alarmPresetText = Vars.DEFAULT_ALARM_TEXT;
         alarmPresets.add(alarmPresetText);
+      }
+      if (Vars.DEMO_MODE) {
+        alarmPresets.set(0, Vars.DEMO_PRESET_1);
+        alarmPresets.set(1, Vars.DEMO_PRESET_2);
+        alarmPresets.set(2, Vars.DEMO_PRESET_3);
+        alarmPresets.set(3, Vars.DEMO_PRESET_4);
       }
       
       alarmPresetText1.setText(alarmPresets.get(0));

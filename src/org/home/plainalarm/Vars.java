@@ -64,4 +64,16 @@ public class Vars {
     "3gp"
   };
   
+  
+  // ---
+  
+  public static final boolean DEMO_MODE = false;
+  public static final String DEMO_TIME = "09:28";
+  public static final String DEMO_PRESET_1 = "06:15";
+  public static final String DEMO_PRESET_2 = "10:00";
+  public static final String DEMO_PRESET_3 = "12:30";
+  public static final String DEMO_PRESET_4 = "19:20";
+  public static final String DEMO_SOUND_PATH = "/storage/extSdCard/audio/rings/02. Ride The Lightning.mp3";
+  public static final String DEMO_SOUND_FOLDER_PATH = "/storage/extSdCard/audio/rings-2";
+  
 }

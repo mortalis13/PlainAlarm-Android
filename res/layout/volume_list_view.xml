@@ -14,7 +14,7 @@
     android:paddingTop="8dp"
     android:paddingRight="8dp"
     android:paddingBottom="8dp"
-    android:paddingLeft="8dp"
+    android:paddingLeft="0dp"
     android:gravity="center"
     android:textColor="@color/popup_list_item_text"
     android:textSize="22dp"
