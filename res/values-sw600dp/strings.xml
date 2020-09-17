@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="ic_volume_up">@drawable/ic_volume_up_black_24dp</string>
+  <string name="ic_folder">@drawable/ic_folder_black_24dp</string>
+  <string name="ic_equalizer">@drawable/ic_equalizer_black_36dp</string>
+  <string name="ic_snooze_large">@drawable/ic_snooze_black_48dp</string>
+  <string name="ic_snooze_small">@drawable/ic_snooze_black_36dp</string>
+</resources>

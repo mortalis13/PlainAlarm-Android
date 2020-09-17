@@ -19,7 +19,8 @@
     <item name="android:selectAllOnFocus">true</item>
     <item name="android:singleLine">true</item>
     
-    <item name="android:layout_width">@dimen/clock_text_width</item>
+    <!-- <item name="android:layout_width">@dimen/clock_text_width</item> -->
+    <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">wrap_content</item>
     <item name="android:gravity">center</item>
     <item name="android:textSize">@dimen/clock_text_font_size</item>

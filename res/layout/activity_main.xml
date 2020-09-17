@@ -5,10 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:paddingTop="@dimen/main_padding_top"
-    android:paddingRight="@dimen/main_padding_right"
-    android:paddingBottom="@dimen/main_padding_bottom"
-    android:paddingLeft="@dimen/main_padding_left"
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
@@ -20,12 +16,14 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
+    android:paddingTop="@dimen/top_panel_margin_top"
+    android:paddingBottom="@dimen/top_panel_margin_top"
     android:layout_alignParentTop="true"
   >
     <LinearLayout
       android:id="@+id/clockPanel"
       android:layout_width="0dp"
-      android:layout_height="wrap_content"
+      android:layout_height="match_parent"
       android:layout_weight="1"
       android:gravity="center"
       android:orientation="horizontal"
@@ -50,79 +48,64 @@
       />
     </LinearLayout>
     
-    
     <LinearLayout
       android:id="@+id/alarmPresetsPanel"
       android:layout_width="0dp"
-      android:layout_height="wrap_content"
+      android:layout_height="match_parent"
       android:layout_weight="1"
       android:gravity="center"
       android:orientation="horizontal"
     >
-      <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:rowCount="2"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-      >
         <LinearLayout
-          android:layout_row="0"
-          android:layout_column="0"
+          android:orientation="vertical"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:gravity="center"
+          android:paddingRight="@dimen/alarm_preset_padding_right"
         >
           <TextView
             android:id="@+id/alarmPresetText1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingRight="@dimen/alarm_preset_padding_right"
+            android:gravity="right"
             android:text="21:30"
             style="@style/AlarmPresetTextStyle"
           />
-        </LinearLayout>
-
-        <LinearLayout
-          android:layout_row="0"
-          android:layout_column="1"
-        >
           <TextView
             android:id="@+id/alarmPresetText2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/alarm_preset_padding_left"
+            android:gravity="right"
             android:text="12:00"
             style="@style/AlarmPresetTextStyle"
           />
         </LinearLayout>
 
         <LinearLayout
-          android:layout_row="1"
-          android:layout_column="0"
+          android:orientation="vertical"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:gravity="center"
         >
           <TextView
             android:id="@+id/alarmPresetText3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingRight="@dimen/alarm_preset_padding_right"
+            android:gravity="left"
             android:text="09:00"
             style="@style/AlarmPresetTextStyle"
           />
-        </LinearLayout>
-
-        <LinearLayout
-          android:layout_row="1"
-          android:layout_column="1"
-        >
           <TextView
             android:id="@+id/alarmPresetText4"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/alarm_preset_padding_left"
+            android:gravity="left"
             android:text="07:15"
             style="@style/AlarmPresetTextStyle"
           />
         </LinearLayout>
-      </GridLayout>
     </LinearLayout>
 
   </LinearLayout>
@@ -132,28 +115,28 @@
     android:id="@+id/soundSelector"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="56dp"
+    android:minHeight="@dimen/selector_min_height"
     android:orientation="horizontal"
     android:layout_below="@+id/topPanel"
     android:gravity="center_vertical"
-    android:paddingTop="6dp"
-    android:paddingRight="6dp"
-    android:paddingBottom="6dp"
-    android:paddingLeft="6dp"
+    android:paddingTop="@dimen/selector_padding_top"
+    android:paddingBottom="@dimen/selector_padding_top"
+    android:paddingLeft="@dimen/selector_padding_left"
+    android:paddingRight="@dimen/selector_padding_left"
     android:background="@drawable/plain_pref_background_enabled"
   >
     <ImageView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:src="@drawable/ic_volume_up_black_18dp"
+      android:src="@string/ic_volume_up"
       android:tint="#777"
     />
     
     <View
       android:layout_width="1dp"
       android:layout_height="match_parent"
-      android:layout_marginRight="6dp"
-      android:layout_marginLeft="6dp"
+      android:layout_marginRight="@dimen/selector_text_divider_margin"
+      android:layout_marginLeft="@dimen/selector_text_divider_margin"
       android:background="#888"
     />
     
@@ -162,7 +145,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="Default"
-      android:textSize="16dp"
+      android:textSize="@dimen/selector_text_size"
     />
   </LinearLayout>
 
@@ -171,28 +154,28 @@
     android:id="@+id/soundFolderSelector"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="56dp"
+    android:minHeight="@dimen/selector_min_height"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:layout_below="@+id/soundSelector"
-    android:paddingTop="6dp"
-    android:paddingRight="6dp"
-    android:paddingBottom="6dp"
-    android:paddingLeft="6dp"
+    android:paddingTop="@dimen/selector_padding_top"
+    android:paddingBottom="@dimen/selector_padding_top"
+    android:paddingLeft="@dimen/selector_padding_left"
+    android:paddingRight="@dimen/selector_padding_left"
     android:background="@drawable/plain_pref_background_disabled"
   >
     <ImageView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:src="@drawable/ic_folder_black_18dp"
+      android:src="@string/ic_folder"
       android:tint="#777"
     />
     
     <View
       android:layout_width="1dp"
       android:layout_height="match_parent"
-      android:layout_marginRight="6dp"
-      android:layout_marginLeft="6dp"
+      android:layout_marginRight="@dimen/selector_text_divider_margin"
+      android:layout_marginLeft="@dimen/selector_text_divider_margin"
       android:background="#888"
     />
     
@@ -201,7 +184,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="[Empty]"
-      android:textSize="16dp"
+      android:textSize="@dimen/selector_text_size"
     />
   </LinearLayout>
   
@@ -209,37 +192,38 @@
   <LinearLayout
     android:id="@+id/settingsPanel"
     android:layout_width="match_parent"
-    android:layout_height="54dp"
+    android:layout_height="@dimen/settings_panel_height"
     android:orientation="horizontal"
     android:gravity="center"
     android:layout_below="@+id/soundFolderSelector"
+    android:layout_marginLeft="@dimen/alarm_switcher_margin_left"
+    android:layout_marginRight="@dimen/alarm_switcher_margin_left"
   >
     <LinearLayout
       android:layout_width="0dp"
       android:layout_height="match_parent"
       android:layout_weight="1"
       android:orientation="horizontal"
-      android:gravity="center"
+      android:gravity="left"
     >
       <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
       >
         <Spinner
           android:id="@+id/volumeSelector"
           android:layout_width="@dimen/settings_button_width"
           android:layout_height="match_parent"
           android:background="@drawable/settings_spinner_background"
-          android:dropDownVerticalOffset="-3dp"
+          android:dropDownVerticalOffset="@dimen/settings_button_dropdown_offset"
         />
         
         <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="left|center_vertical"
-          android:layout_marginLeft="18dp"
-          android:src="@drawable/ic_equalizer_black_24dp"
+          android:layout_marginLeft="@dimen/settings_button_1_image_margin"
+          android:src="@string/ic_equalizer"
           android:tint="#666"
         />
       </FrameLayout>
@@ -256,7 +240,7 @@
         android:id="@+id/bSnooze"
         android:layout_width="@dimen/settings_button_width"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_snooze_black_36dp"
+        android:src="@string/ic_snooze_large"
         android:tint="#777"
         android:background="@drawable/toggle_button_disabled"
       />
@@ -267,27 +251,27 @@
       android:layout_height="match_parent"
       android:layout_weight="1"
       android:orientation="horizontal"
-      android:gravity="center"
+      android:gravity="right"
     >
       <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginRight="10dp"
       >
         <Spinner
           android:id="@+id/snoozeTimeSelector"
           android:layout_width="@dimen/settings_button_width"
           android:layout_height="match_parent"
           android:background="@drawable/settings_spinner_background"
-          android:dropDownVerticalOffset="-3dp"
+          android:textSize="@dimen/settings_spinner_text_size"
+          android:dropDownVerticalOffset="@dimen/settings_button_dropdown_offset"
         />
         
         <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="left|center_vertical"
-          android:layout_marginLeft="14dp"
-          android:src="@drawable/ic_snooze_black_24dp"
+          android:layout_marginLeft="@dimen/settings_button_2_image_margin"
+          android:src="@string/ic_snooze_small"
           android:tint="#666"
         />
       </FrameLayout>
@@ -300,8 +284,10 @@
     android:layout_height="match_parent"
     android:layout_below="@+id/settingsPanel"
     android:orientation="vertical"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="12dp"
+    android:layout_marginTop="@dimen/alarm_switcher_margin_top"
+    android:layout_marginBottom="@dimen/alarm_switcher_margin_bottom"
+    android:layout_marginLeft="@dimen/alarm_switcher_margin_left"
+    android:layout_marginRight="@dimen/alarm_switcher_margin_left"
   >
     <LinearLayout
       android:id="@+id/panelAlarmState"
@@ -309,12 +295,12 @@
       android:layout_height="match_parent"
       android:orientation="horizontal"
       android:gravity="center"
-      android:background="@drawable/alarm_state_panel_background_start"
+      android:background="@drawable/alarm_switcher_background_start"
     >
       <ImageView
         android:id="@+id/imageAlarmWakeupAnimation"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        android:layout_width="@dimen/alarm_switcher_icon_size"
+        android:layout_height="@dimen/alarm_switcher_icon_size"
         app:srcCompat="@drawable/avd_clock_alarm"
         android:tint="#f3f3f3"
         android:visibility="gone"

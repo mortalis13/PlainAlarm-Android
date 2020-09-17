@@ -17,6 +17,8 @@ public class Vars {
   public static final String PLAYER_NOTIFICATION_TITLE = "PlainAlarm";
   public static final int NOTIFICATION_ID = 0;
   
+  public static final int APP_PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 101;
+  
   public static final String EXTRA_SOUND_PATH = "sound_path";
   public static final String EXTRA_SOUND_FOLDER_PATH = "sound_folder_path";
   public static final String EXTRA_SOUND_FROM_FOLDER = "sound_from_folder";

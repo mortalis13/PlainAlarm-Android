@@ -22,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.graphics.drawable.Animatable;
 import android.support.graphics.drawable.Animatable2Compat.AnimationCallback;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -49,13 +50,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ImageButton;
 
+import android.support.v4.content.ContextCompat;
+import android.Manifest;
+import android.content.pm.PackageManager;
+
 
 public class MainActivity extends AppCompatActivity {
   
   private static int DRAWABLE_PREF_BACKGROUND_ENABLED           = R.drawable.plain_pref_background_enabled;
   private static int DRAWABLE_PREF_BACKGROUND_DISABLED          = R.drawable.plain_pref_background_disabled;
-  private static int DRAWABLE_ALARM_PANEL_BACKGROUND_STOP       = R.drawable.alarm_state_panel_background_stop;
-  private static int DRAWABLE_ALARM_PANEL_BACKGROUND_START      = R.drawable.alarm_state_panel_background_start;
+  private static int DRAWABLE_ALARM_PANEL_BACKGROUND_STOP       = R.drawable.alarm_switcher_background_stop;
+  private static int DRAWABLE_ALARM_PANEL_BACKGROUND_START      = R.drawable.alarm_switcher_background_start;
   private static int DRAWABLE_TOGGLE_BUTTON_BACKGROUND_ENABLED  = R.drawable.toggle_button_enabled;
   private static int DRAWABLE_TOGGLE_BUTTON_BACKGROUND_DISABLED = R.drawable.toggle_button_disabled;
   
@@ -92,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
   private EditText hoursField;
   private EditText minutesField;
   
-  private AnimatedVectorDrawableCompat alarmWakeupAnimation;
+  private Animatable alarmWakeupAnimation;
   
   
   @Override
@@ -104,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
     
     context = this;
     MainService.context = context;
+    
+    requestAppPermissions(context);
     
     init();
     configUI();
@@ -154,6 +161,12 @@ public class MainActivity extends AppCompatActivity {
   
   
   // -----------------------------------------------------------
+  
+  private void requestAppPermissions(Context context) {
+    if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+      requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Vars.APP_PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
+    }
+  }
   
   private void init() {
     audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -365,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
       volumeSelector.setOnItemSelectedListener(new OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
           Fun.saveSharedPref(context, Vars.PREF_KEY_ALARM_VOLUME, position);
-          audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, position, 0);
+          // audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, position, 0);
         }
         public void onNothingSelected(AdapterView<?> parent) {}
       });
@@ -440,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
   
   private void startAlarm(long timeMillis) {
     isAlarmWakeup = false;
-    setMinVolume();
+    // setMinVolume();
     
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       // API-19
@@ -580,13 +593,13 @@ public class MainActivity extends AppCompatActivity {
   private void animateClock() {
     imageAlarmWakeupAnimation.setVisibility(View.VISIBLE);
     
-    alarmWakeupAnimation = (AnimatedVectorDrawableCompat) imageAlarmWakeupAnimation.getDrawable();
-    alarmWakeupAnimation.registerAnimationCallback(new AnimationCallback() {
+    Drawable alarmWakeupDrawable = imageAlarmWakeupAnimation.getDrawable();
+    alarmWakeupAnimation = (Animatable) alarmWakeupDrawable;
+    AnimatedVectorDrawableCompat.registerAnimationCallback(alarmWakeupDrawable, new AnimationCallback() {
       public void onAnimationEnd(Drawable drawable) {
         new Handler().postDelayed(() -> alarmWakeupAnimation.start(), 1000);
       }
     });
-    
     alarmWakeupAnimation.start();
   }
   

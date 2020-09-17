@@ -1,0 +1,32 @@
+<resources>
+  <dimen name="top_panel_margin_top">14dp</dimen>
+  
+  <dimen name="clock_text_width">90dp</dimen>
+  <dimen name="clock_text_font_size">68dp</dimen>
+  <dimen name="clock_separator_padding_bottom">7dp</dimen>
+  <dimen name="clock_separator_font_size">50dp</dimen>
+  
+  <dimen name="alarm_preset_padding_right">28dp</dimen>
+  <dimen name="alarm_preset_font_size">42dp</dimen>
+  
+  <dimen name="selector_min_height">76dp</dimen>
+  <dimen name="selector_padding_top">10dp</dimen>
+  <dimen name="selector_padding_left">14dp</dimen>
+  <dimen name="selector_text_divider_margin">14dp</dimen>
+  <dimen name="selector_text_size">22dp</dimen>
+  
+  <dimen name="settings_panel_height">76dp</dimen>
+  <dimen name="settings_button_dropdown_offset">-4dp</dimen>
+  <dimen name="settings_button_1_image_margin">26dp</dimen>
+  <dimen name="settings_button_2_image_margin">22dp</dimen>
+  <dimen name="settings_button_width">130dp</dimen>
+  <dimen name="settings_button_radius">8dp</dimen>
+  <dimen name="settings_spinner_text_size">26dp</dimen>
+  <dimen name="snooze_selector_padding_left">46dp</dimen>
+  
+  <dimen name="alarm_switcher_radius">8dp</dimen>
+  <dimen name="alarm_switcher_margin_top">14dp</dimen>
+  <dimen name="alarm_switcher_margin_bottom">14dp</dimen>
+  <dimen name="alarm_switcher_margin_left">10dp</dimen>
+  <dimen name="alarm_switcher_icon_size">200dp</dimen>
+</resources>

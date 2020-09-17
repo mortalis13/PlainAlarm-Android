@@ -23,7 +23,7 @@
       android:paddingLeft="14dp"
       android:gravity="center_vertical"
       android:textColor="@color/popup_list_item_text"
-      android:textSize="22dp"
+      android:textSize="@dimen/settings_spinner_text_size"
       android:textStyle="bold"
     />
   </LinearLayout>

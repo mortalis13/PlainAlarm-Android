@@ -11,12 +11,12 @@
   <color name="toggle_button_background_enabled">#bce1d1</color>
   <color name="toggle_button_background_enabled_pressed">#bce1d1</color>
   
-  <!-- <color name="alarm_state_panel_start_pressed">#75ab79</color> -->
-  <color name="alarm_state_panel_start_pressed">#8bb88f</color>
-  <color name="alarm_state_panel_start_default">#8bb88f</color>
-  <!-- <color name="alarm_state_panel_stop_pressed">#c35c5c</color> -->
-  <color name="alarm_state_panel_stop_pressed">#d37575</color>
-  <color name="alarm_state_panel_stop_default">#d37575</color>
+  <!-- <color name="alarm_switcher_start_pressed">#75ab79</color> -->
+  <color name="alarm_switcher_start_pressed">#8bb88f</color>
+  <color name="alarm_switcher_start_default">#8bb88f</color>
+  <!-- <color name="alarm_switcher_stop_pressed">#c35c5c</color> -->
+  <color name="alarm_switcher_stop_pressed">#d37575</color>
+  <color name="alarm_switcher_stop_default">#d37575</color>
   
   <!-- <color name="clock_edit_text_background_default">#ccc</color> -->
   <color name="clock_edit_text_background_default">@color/transparent</color>

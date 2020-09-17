@@ -4,7 +4,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:gravity="center"
-  android:paddingLeft="32dp"
+  android:paddingLeft="@dimen/snooze_selector_padding_left"
 >
   <TextView
     android:id="@+id/itemText"
@@ -17,7 +17,7 @@
     android:paddingLeft="8dp"
     android:gravity="center"
     android:textColor="@color/popup_list_item_text"
-    android:textSize="22dp"
+    android:textSize="@dimen/settings_spinner_text_size"
     android:textStyle="bold"
   />
 </LinearLayout>
