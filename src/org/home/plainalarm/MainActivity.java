@@ -709,7 +709,6 @@ public class MainActivity extends AppCompatActivity {
   // ---------------------------------------- Utils -------------------
   private void createNotificationChannel() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      Fun.log("...creating channel");
       String id = Vars.NOTIFICATIONS_CHANNEL_ID;
       CharSequence name = getString(R.string.notification_channel_name);
       String description = getString(R.string.notification_channel_description);

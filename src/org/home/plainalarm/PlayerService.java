@@ -93,15 +93,23 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
       soundPath = getRandomFile(soundFolderPath);
     }
     
-    Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-    if (soundPath != null && Fun.fileExists(soundPath)) {
-      uri = Uri.parse(soundPath);
-    }
+    // Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+    // if (soundPath != null && Fun.fileExists(soundPath)) {
+    //   uri = Uri.parse(soundPath);
+    // }
     
     MainService.showPlayerNotification(Fun.getBaseFileName(soundPath));
     
     try {
-      mediaPlayer.setDataSource(this, uri);
+      // mediaPlayer.setDataSource(this, uri);
+      
+      if (soundPath != null && Fun.fileExists(soundPath)) {
+        mediaPlayer.setDataSource(soundPath);
+      }
+      else {
+        mediaPlayer.setDataSource(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+      }
+      
       mediaPlayer.prepareAsync();
     }
     catch (Exception e) {
