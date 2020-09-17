@@ -11,6 +11,7 @@ import org.home.file_chooser_lib.FilePickerDialog;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.NotificationChannel;
 import android.content.IntentFilter;
 import android.content.Context;
 import android.content.Intent;
@@ -53,6 +54,7 @@ import android.widget.ImageButton;
 import android.support.v4.content.ContextCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.app.NotificationManager;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
     MainService.context = context;
     
     requestAppPermissions(context);
+    createNotificationChannel();
     
     init();
     configUI();
@@ -702,6 +705,23 @@ public class MainActivity extends AppCompatActivity {
     Fun.saveSharedPref(context, Vars.PREF_KEY_USE_SOUND_FOLDER, false);
   }
   
+  
+  // ---------------------------------------- Utils -------------------
+  private void createNotificationChannel() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      Fun.log("...creating channel");
+      String id = Vars.NOTIFICATIONS_CHANNEL_ID;
+      CharSequence name = getString(R.string.notification_channel_name);
+      String description = getString(R.string.notification_channel_description);
+      int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+      NotificationChannel channel = new NotificationChannel(id, name, importance);
+      channel.setDescription(description);
+      NotificationManager notificationManager = getSystemService(NotificationManager.class);
+      notificationManager.createNotificationChannel(channel);
+    }
+  }
+
   
   // ---------------------------------------- Classes -------------------
   class NumberTextWatcher implements TextWatcher {

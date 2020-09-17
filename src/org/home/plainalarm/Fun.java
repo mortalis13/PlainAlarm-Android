@@ -227,9 +227,8 @@ public class Fun {
     return result;
   }
   
-  
   public static void showNotification(Context context, int id, boolean fixed, String text) {
-    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, Vars.NOTIFICATIONS_CHANNEL_ID);
     Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
     
     mBuilder.setSmallIcon(R.drawable.ic_notifications_none_white_24dp);
@@ -244,7 +243,7 @@ public class Fun {
   }
   
   public static void showPlayerNotification(Context context, int id, String text) {
-    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, Vars.NOTIFICATIONS_CHANNEL_ID);
     Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
     
     mBuilder.setSmallIcon(R.drawable.ic_notifications_white_24dp);
