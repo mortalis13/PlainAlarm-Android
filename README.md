@@ -1,7 +1,7 @@
 
 # PlainAlarm
 
-![Icon](_img/icon2.png)
+![Icon](_img/icon3.png)
 
 Simple Android alarm with handy controls.
 
@@ -11,5 +11,5 @@ Simple Android alarm with handy controls.
 
 ## Screenshots
 
-![Image_1](_img/plainalarm-1.png)<br><br>
-![Image_2](_img/plainalarm-2.png)<br>
+![Image_1](_img/plainalarm-1_1.png)<br><br>
+![Image_2](_img/plainalarm-2_1.png)<br>

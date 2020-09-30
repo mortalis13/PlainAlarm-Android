@@ -254,15 +254,15 @@ public class MainActivity extends AppCompatActivity {
       }
       
       if (!alarmStarted) {
-        Fun.logd("Starting Alarm");
-        if (!Vars.DEBUG_MODE) {
-          startAlarm();
-          updateInputState();
-        }
-        else {
+        if (Vars.DEBUG_MODE || Vars.DEMO_MODE) {
           setAlarmStartedPref();
           wakeupAlarm();
+          return;
         }
+        
+        Fun.logd("Starting Alarm");
+        startAlarm();
+        updateInputState();
       }
       else {
         Fun.logd("Stopping Alarm");
