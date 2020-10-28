@@ -19,4 +19,10 @@ public class FilePickerDialog extends PickerDialog {
     };
   }
   
+  public void setExtensionFilter(String ext) {
+    fileFilter = (dirName, fileName) -> {
+      return fileName.toLowerCase().endsWith(ext);
+    };
+  }
+  
 }

@@ -1,5 +1,4 @@
-
-// Gradle 4.3.1
+// gradle-6.7
 // jdk1.8.0_91
 
 apply plugin: 'com.android.library'
@@ -14,7 +13,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.0.1'
+    classpath 'com.android.tools.build:gradle:4.1.0'
   }
 }
 
@@ -29,10 +28,16 @@ allprojects {
 
 // -- app
 android {
-  compileSdkVersion 26
+  compileSdkVersion 29
   
   defaultConfig {
     vectorDrawables.useSupportLibrary = true
+    
+    versionCode 101
+    versionName String.format('%d.%d.%d', (int)(versionCode/10/10), (int)(versionCode/10)%10, versionCode%10)
+    
+    minSdkVersion 16
+    targetSdkVersion 29
   }
   
   compileOptions {

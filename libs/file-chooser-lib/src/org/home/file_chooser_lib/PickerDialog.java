@@ -119,20 +119,18 @@ public class PickerDialog {
 
   
   public void showDialog() {
+    refresh(Environment.getExternalStorageDirectory());
     dialog.show();
   }
   
   public void showDialog(String startPath) {
     refresh(startPath);
-    showDialog();
+    dialog.show();
   }
   
   
   protected void refresh(String path) {
-    File file = Environment.getExternalStorageDirectory();
-    if (path != null) {
-      file = new File(path);
-    }
+    File file = (path == null) ? Environment.getExternalStorageDirectory(): new File(path);
     refresh(file);
   }
   
@@ -141,7 +139,7 @@ public class PickerDialog {
   }
   
   protected void refresh(File path, boolean parentClicked) {
-    if (!path.exists()) return;
+    if (!path.exists()) path = Environment.getExternalStorageDirectory();
     String exitFolder = null;
     if (parentClicked) exitFolder = currentPath.getName();
     this.currentPath = path;
