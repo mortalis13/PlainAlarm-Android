@@ -1,4 +1,4 @@
-package org.home.plainalarm;
+package org.mortalis.plainalarm;
 
 import android.app.Service;
 import android.content.Intent;

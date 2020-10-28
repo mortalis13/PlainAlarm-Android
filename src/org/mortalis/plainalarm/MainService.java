@@ -1,4 +1,4 @@
-package org.home.plainalarm;
+package org.mortalis.plainalarm;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;

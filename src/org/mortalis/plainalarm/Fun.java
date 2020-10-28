@@ -1,4 +1,4 @@
-package org.home.plainalarm;
+package org.mortalis.plainalarm;
 
 import java.io.File;
 import java.io.FileFilter;
