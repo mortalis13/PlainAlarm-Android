@@ -28,7 +28,7 @@ allprojects {
 
 // -- app
 android {
-  compileSdkVersion 29
+  compileSdkVersion 26
   
   defaultConfig {
     vectorDrawables.useSupportLibrary = true
@@ -37,7 +37,7 @@ android {
     versionName String.format('%d.%d.%d', (int)(versionCode/10/10), (int)(versionCode/10)%10, versionCode%10)
     
     minSdkVersion 16
-    targetSdkVersion 29
+    targetSdkVersion 26
   }
   
   compileOptions {

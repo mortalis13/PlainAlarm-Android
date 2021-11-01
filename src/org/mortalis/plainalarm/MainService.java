@@ -15,7 +15,7 @@ public class MainService {
   public static int notif_current_id;
   
   public static void startAlarm(Context context) {
-    Log.d(Vars.APP_LOG_TAG, "MainService.startAlarm()");
+    Fun.logd("MainService.startAlarm()");
     
     boolean alarmStarted = Fun.getSharedPrefBool(context, Vars.PREF_KEY_ALARM_STARTED);
     long timeMillis = Fun.getSharedPrefLong(context, Vars.PREF_KEY_ALARM_TIME_MILLIS);
@@ -26,8 +26,15 @@ public class MainService {
       Intent receiverIntent = new Intent(context, AlarmReceiver.class);
       PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, receiverIntent, 0);
       
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-        // API-19
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        // >=API-21
+        PendingIntent opIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
+        alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(timeMillis, opIntent), pendingIntent);
+        
+        // alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
+      }
+      else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        // >=API-19
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
       }
       else {

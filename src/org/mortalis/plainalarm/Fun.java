@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 import java.util.Random;
+import java.io.FileOutputStream;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -23,6 +25,8 @@ import android.widget.Toast;
 import android.os.PowerManager;
 
 public class Fun {
+  
+  public static String storagePath;
   
   public static boolean fileExists(String filePath) {
     return new File(filePath).exists();
@@ -118,6 +122,23 @@ public class Fun {
   }
   
   
+  private static void log_file(String msg) {
+    // Log.i(Vars.APP_LOG_TAG, "storagePath: " + storagePath);
+    File dir = new File(storagePath);
+    try {
+      File f = new File(dir, "plainalarm_log.txt");
+      FileOutputStream fout = new FileOutputStream(f, true);
+      fout.write(new Date().toString().getBytes());
+      fout.write(" :: ".getBytes());
+      fout.write(msg.getBytes());
+      fout.write(0x0a);
+      fout.close();
+    }
+    catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+    
   private static void log(Object value, Vars.LogLevel level) {
     String msg = null;
     if (value != null) {
@@ -144,6 +165,8 @@ public class Fun {
           break;
         }
       }
+      
+      log_file(msg);
     }
     catch (Exception e) {
       System.out.println(Vars.APP_LOG_TAG + " :: " + msg);

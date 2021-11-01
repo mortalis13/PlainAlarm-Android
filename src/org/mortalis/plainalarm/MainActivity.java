@@ -8,6 +8,9 @@ import java.util.List;
 import org.home.file_chooser_lib.DirectoryPickerDialog;
 import org.home.file_chooser_lib.FilePickerDialog;
 
+import android.os.Environment;
+import android.net.Uri;
+import android.provider.Settings;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -166,12 +169,24 @@ public class MainActivity extends AppCompatActivity {
   // -----------------------------------------------------------
   
   private void requestAppPermissions(Context context) {
-    boolean isReadGranted  = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)  == PackageManager.PERMISSION_GRANTED;
-    if (isReadGranted) return;
+    boolean isWriteGranted = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     
-    requestPermissions(new String[] {
-      Manifest.permission.READ_EXTERNAL_STORAGE,
-    }, Vars.APP_PERMISSION_REQUEST_ACCESS_EXTERNAL_STORAGE);
+    if (!isWriteGranted) {
+      requestPermissions(new String[] {
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+      }, Vars.APP_PERMISSION_REQUEST_ACCESS_EXTERNAL_STORAGE);
+    }
+    
+    // PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+    // Fun.log("isIgnoringBatteryOptimizations(): " + pm.isIgnoringBatteryOptimizations(getPackageName()));
+    
+    // Intent intent1 = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+    // startActivity(intent1);
+    
+    if (!Settings.canDrawOverlays(context)){
+      Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+      startActivity(intent);
+    }
   }
   
   private void init() {
@@ -191,6 +206,9 @@ public class MainActivity extends AppCompatActivity {
       Fun.saveSharedPref(context, Vars.PREF_KEY_SOUND_FOLDER_PATH, path);
       soundFolderPathView.setText(path);
     });
+    
+    // Fun.storagePath = context.getFilesDir().getPath();
+    Fun.storagePath = Environment.getExternalStorageDirectory().getPath();
   }
   
   private void configUI() {
@@ -458,11 +476,20 @@ public class MainActivity extends AppCompatActivity {
   }
   
   private void startAlarm(long timeMillis) {
+    Fun.logd("MainActivity.startAlarm()");
+    
     isAlarmWakeup = false;
     // setMinVolume();
     
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      // API-19
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      // >=API-21
+      PendingIntent opIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
+      alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(timeMillis, opIntent), pendingIntent);
+      
+      // alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
+    }
+    else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+      // >=API-19
       alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
     }
     else {
@@ -666,12 +693,14 @@ public class MainActivity extends AppCompatActivity {
     if (inputMethodManager != null) {
       if (inputMethodManager.isActive(hoursField)) {
         hoursField.clearFocus();
-        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
       }
       else if (inputMethodManager.isActive(minutesField)) {
         minutesField.clearFocus();
-        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
       }
+      
+      // inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+      View v = getWindow().getDecorView().getRootView();
+      if (v != null) inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
   }
   
@@ -685,7 +714,9 @@ public class MainActivity extends AppCompatActivity {
   
   private void hideSoftInput() {
     InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    View v = getWindow().getDecorView().getRootView();
+    if (inputMethodManager == null || v == null) return;
+    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
   }
   
   private boolean isAlarmStarted() {
