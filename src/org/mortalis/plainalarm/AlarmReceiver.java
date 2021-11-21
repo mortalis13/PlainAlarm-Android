@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
-// import android.os.PowerManager;
 
 
 public class AlarmReceiver extends WakefulBroadcastReceiver {
@@ -19,8 +18,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     
     Intent i = new Intent();
     i.setClass(context, MainActivity.class);
-    // int flags = Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION;
-    // int flags = Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY;
     int flags = Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY;
     i.setFlags(flags);
     i.putExtra(ALARM_WAKEUP_INTENT, true);

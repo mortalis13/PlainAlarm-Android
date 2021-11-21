@@ -177,12 +177,6 @@ public class MainActivity extends AppCompatActivity {
       }, Vars.APP_PERMISSION_REQUEST_ACCESS_EXTERNAL_STORAGE);
     }
     
-    // PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-    // Fun.log("isIgnoringBatteryOptimizations(): " + pm.isIgnoringBatteryOptimizations(getPackageName()));
-    
-    // Intent intent1 = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-    // startActivity(intent1);
-    
     if (!Settings.canDrawOverlays(context)){
       Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
       startActivity(intent);
@@ -207,7 +201,6 @@ public class MainActivity extends AppCompatActivity {
       soundFolderPathView.setText(path);
     });
     
-    // Fun.storagePath = context.getFilesDir().getPath();
     Fun.storagePath = Environment.getExternalStorageDirectory().getPath();
   }
   
@@ -479,14 +472,11 @@ public class MainActivity extends AppCompatActivity {
     Fun.logd("MainActivity.startAlarm()");
     
     isAlarmWakeup = false;
-    // setMinVolume();
     
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       // >=API-21
       PendingIntent opIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
       alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(timeMillis, opIntent), pendingIntent);
-      
-      // alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
     }
     else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       // >=API-19
@@ -655,7 +645,6 @@ public class MainActivity extends AppCompatActivity {
     Bundle extras = intent.getExtras();
     if (extras != null) {
       result = extras.getBoolean(AlarmReceiver.ALARM_WAKEUP_INTENT);
-      // intent.putExtra(AlarmReceiver.ALARM_WAKEUP_INTENT, false);
     }
     
     return result;
@@ -861,7 +850,7 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private int getSelectedPos(String value) {
-      try {return Integer.parseInt(value); }
+      try {return Integer.parseInt(value);}
       catch (NumberFormatException e) {}
       return minValue;
     }
@@ -972,7 +961,6 @@ public class MainActivity extends AppCompatActivity {
   protected void onStop() {
     Fun.logd("MainActivity.onStop()");
     super.onStop();
-    // finish();
   }
   
   @Override

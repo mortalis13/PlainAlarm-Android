@@ -30,8 +30,6 @@ public class MainService {
         // >=API-21
         PendingIntent opIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
         alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(timeMillis, opIntent), pendingIntent);
-        
-        // alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
       }
       else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
         // >=API-19

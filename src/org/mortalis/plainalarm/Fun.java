@@ -123,7 +123,6 @@ public class Fun {
   
   
   private static void log_file(String msg) {
-    // Log.i(Vars.APP_LOG_TAG, "storagePath: " + storagePath);
     File dir = new File(storagePath);
     try {
       File f = new File(dir, "plainalarm_log.txt");
@@ -166,7 +165,7 @@ public class Fun {
         }
       }
       
-      log_file(msg);
+      // log_file(msg);
     }
     catch (Exception e) {
       System.out.println(Vars.APP_LOG_TAG + " :: " + msg);
