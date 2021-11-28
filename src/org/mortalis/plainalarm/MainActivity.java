@@ -53,7 +53,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ImageButton;
-
+import android.view.WindowManager;
 import android.support.v4.content.ContextCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     
     context = this;
     MainService.context = context;
