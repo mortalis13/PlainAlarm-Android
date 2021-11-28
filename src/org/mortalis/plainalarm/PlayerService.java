@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
 import java.util.List;
+import java.util.Collections;
+import java.util.Iterator;
 
 
 public class PlayerService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
@@ -18,6 +20,8 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
   private boolean soundFromFolder;
   private String soundPath;
   private String soundFolderPath;
+  
+  private Iterator<String> filesIter;
   
   
   @Override
@@ -36,6 +40,7 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
       mediaPlayer.setOnCompletionListener(this);
       mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
       
+      createFilesIterator();
       loadPlayerSound();
     }
     catch (Exception e) {
@@ -89,8 +94,13 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
   
   
   private void loadPlayerSound() {
-    if (soundFromFolder) {
-      soundPath = getRandomFile(soundFolderPath);
+    if (filesIter != null && !filesIter.hasNext()) {
+      createFilesIterator();
+    }
+    
+    if (filesIter != null) {
+      soundPath = filesIter.next();
+      Fun.logd("Random audio file: \"" + soundPath + "\"");
     }
     
     MainService.showPlayerNotification(Fun.getBaseFileName(soundPath));
@@ -110,22 +120,15 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
     }
   }
   
-  private String getRandomFile(String soundFolderPath) {
-    String soundPath = null;
-    
-    if (soundFolderPath != null && Fun.fileExists(soundFolderPath)) {
+  private void createFilesIterator() {
+    if (soundFolderPath != null) {
+      Fun.logd("Shuffling the audio files");
       List<String> soundFiles = Fun.getSoundFiles(soundFolderPath);
-      int len = soundFiles.size();
-      if (len > 0) {
-        soundPath = soundFiles.get(Fun.getRandomInt(0, len - 1));
+      if (soundFiles.size() > 0) {
+        Collections.shuffle(soundFiles);
+        filesIter = soundFiles.stream().iterator();
       }
-      Fun.logd("Random audio file: \"" + soundPath + "\"");
     }
-    else {
-      Fun.logd("Sound Folder does not exist");
-    }
-    
-    return soundPath;
   }
   
 }
