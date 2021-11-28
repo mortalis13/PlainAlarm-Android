@@ -12,7 +12,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
   
   @Override
   public void onReceive(final Context context, Intent intent) {
-    Log.d(Vars.APP_LOG_TAG, "AlarmReceiver.onReceive()");
+    Fun.logd("AlarmReceiver.onReceive()");
     
     Fun.screenWakeup(context);
     

@@ -22,7 +22,7 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
   
   @Override
   public int onStartCommand(Intent intent, int flags, int startId) {
-    Log.d(Vars.APP_LOG_TAG, "PlayerService.onStartCommand()");
+    Fun.logd("PlayerService.onStartCommand()");
     
     try {
       soundFromFolder = intent.getBooleanExtra(Vars.EXTRA_SOUND_FROM_FOLDER, false);
@@ -53,7 +53,7 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
   
   @Override
   public void onDestroy() {
-    Log.d(Vars.APP_LOG_TAG, "PlayerService.onDestroy()");
+    Fun.logd("PlayerService.onDestroy()");
     super.onDestroy();
     if (mediaPlayer != null) mediaPlayer.release();
   }
@@ -68,20 +68,20 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
   @Override
   public void onPrepared(MediaPlayer player) {
     player.start();
-    Log.d(Vars.APP_LOG_TAG, "Player started");
+    Fun.logd("Player started");
   }
   
   // -- MediaPlayer.OnErrorListener
   @Override
   public boolean onError(MediaPlayer mp, int what, int extra) {
-    Log.d(Vars.APP_LOG_TAG, "MediaPlayer Error: " + what + "; " + extra);
+    Fun.logd("MediaPlayer Error: " + what + "; " + extra);
     return true;
   }
   
   // -- MediaPlayer.OnCompletionListener
   @Override
   public void onCompletion(MediaPlayer mp) {
-    Log.d(Vars.APP_LOG_TAG, "MediaPlayer.onCompletion()");
+    Fun.logd("MediaPlayer.onCompletion()");
     mediaPlayer.stop();
     mediaPlayer.reset();
     loadPlayerSound();
@@ -119,10 +119,10 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
       if (len > 0) {
         soundPath = soundFiles.get(Fun.getRandomInt(0, len - 1));
       }
-      Log.d(Vars.APP_LOG_TAG, "Random audio file: \"" + soundPath + "\"");
+      Fun.logd("Random audio file: \"" + soundPath + "\"");
     }
     else {
-      Log.d(Vars.APP_LOG_TAG, "Sound Folder does not exist");
+      Fun.logd("Sound Folder does not exist");
     }
     
     return soundPath;
