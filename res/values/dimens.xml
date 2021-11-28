@@ -2,12 +2,12 @@
   <dimen name="top_panel_margin_top">10dp</dimen>
   
   <dimen name="clock_text_width">50dp</dimen>
-  <dimen name="clock_text_font_size">44dp</dimen>
+  <dimen name="clock_text_font_size">50dp</dimen>
   <dimen name="clock_separator_padding_bottom">3dp</dimen>
   <dimen name="clock_separator_font_size">34dp</dimen>
   
   <dimen name="alarm_preset_padding_right">10dp</dimen>
-  <dimen name="alarm_preset_font_size">28dp</dimen>
+  <dimen name="alarm_preset_font_size">30dp</dimen>
   
   <dimen name="selector_min_height">60dp</dimen>
   <dimen name="selector_padding_top">6dp</dimen>
