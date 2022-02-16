@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
     
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     
     context = this;
     MainService.context = context;
@@ -528,6 +527,8 @@ public class MainActivity extends AppCompatActivity {
       snoozeAlarm(snoozeTime);
     }
     isAlarmWakeup = false;
+    
+    disableScreenOn();
   }
   
   private void wakeupAlarm() {
@@ -538,6 +539,8 @@ public class MainActivity extends AppCompatActivity {
     setMinVolume();
     playSound();
     animateClock();
+    
+    enableScreenOn();
   }
   
   
@@ -582,6 +585,14 @@ public class MainActivity extends AppCompatActivity {
   
 
   // --------------------------------------- UI Utils --------------------
+  
+  private void enableScreenOn() {
+    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+  }
+  
+  private void disableScreenOn() {
+    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+  }
   
   private void updateAlarmText(String text) {
     textWatcherEnabled = false;
