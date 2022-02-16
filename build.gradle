@@ -34,7 +34,7 @@ android {
     applicationId "org.mortalis.plainalarm"
     vectorDrawables.useSupportLibrary = true
     
-    versionCode 118
+    versionCode 119
     versionName String.format('%d.%d.%d', (int)(versionCode/10/10), (int)(versionCode/10)%10, versionCode%10)
     
     minSdkVersion 16
@@ -107,5 +107,5 @@ task appStartRelease(type: Exec, dependsOn: 'installRelease') {
 
 
 tasks.withType(JavaCompile) {
-  options.compilerArgs << '-Xlint:deprecation'
+  // options.compilerArgs << '-Xlint:deprecation'
 }
