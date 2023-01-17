@@ -38,6 +38,7 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
       mediaPlayer.setOnPreparedListener(this);
       mediaPlayer.setOnErrorListener(this);
       mediaPlayer.setOnCompletionListener(this);
+      
       mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
       
       createFilesIterator();

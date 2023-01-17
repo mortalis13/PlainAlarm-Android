@@ -379,7 +379,6 @@ public class MainActivity extends AppCompatActivity {
   // ------------------------------ Actions ------------------------------
   private void initVolumeSelector() {
     int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-    // int curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     int curVolume = (int) Fun.getSharedPrefLong(context, Vars.PREF_KEY_ALARM_VOLUME);
     if (curVolume == -1) curVolume = Vars.DEFAULT_ALARM_VOLUME;
     
@@ -395,7 +394,6 @@ public class MainActivity extends AppCompatActivity {
       volumeSelector.setOnItemSelectedListener(new OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
           Fun.saveSharedPref(context, Vars.PREF_KEY_ALARM_VOLUME, position);
-          // audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, position, 0);
         }
         public void onNothingSelected(AdapterView<?> parent) {}
       });
@@ -442,7 +440,6 @@ public class MainActivity extends AppCompatActivity {
   
   private void setMinVolume() {
     int alarmVolume = volumeSelector.getSelectedItemPosition();
-    // if (alarmVolume <= 0) alarmVolume = 1;
     audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, alarmVolume, 0);
   }
   
@@ -667,6 +664,10 @@ public class MainActivity extends AppCompatActivity {
   
   private void playSound() {
     Fun.logd("playSound()");
+    
+    // Force audio output to the speaker
+    audioManager.setSpeakerphoneOn(true);
+    audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
     
     Intent playerIntent = new Intent(this, PlayerService.class);
     boolean useSoundFolder = isUseSoundFolder();
