@@ -11,7 +11,6 @@ import org.home.file_chooser_lib.FilePickerDialog;
 import android.os.Environment;
 import android.net.Uri;
 import android.provider.Settings;
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.NotificationChannel;
@@ -25,7 +24,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PowerManager;
 import android.graphics.drawable.Animatable;
 import android.support.graphics.drawable.Animatable2Compat.AnimationCallback;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
@@ -33,15 +31,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.text.Editable;
-import android.text.InputType;
-import android.text.Spanned;
 import android.text.TextWatcher;
-import android.text.method.NumberKeyListener;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.content.BroadcastReceiver;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
@@ -152,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
   
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    // getMenuInflater().inflate(R.menu.main, menu);
     return true;
   }
   
@@ -576,7 +568,6 @@ public class MainActivity extends AppCompatActivity {
   
 
   // --------------------------------------- UI Utils --------------------
-  
   private void enableScreenOn() {
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
   }
@@ -740,7 +731,6 @@ public class MainActivity extends AppCompatActivity {
   }
   
   
-  // ---------------------------------------- Utils -------------------
   private void createNotificationChannel() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       String id = Vars.NOTIFICATIONS_CHANNEL_ID;
@@ -760,7 +750,6 @@ public class MainActivity extends AppCompatActivity {
   class NumberTextWatcher implements TextWatcher {
     private int minValue;
     private int maxValue;
-    private int maxLength;
     
     private boolean focusNext;
     private String prevText;
@@ -772,63 +761,50 @@ public class MainActivity extends AppCompatActivity {
       this.minValue = minValue;
       this.maxValue = maxValue;
       this.focusNext = focusNext;
-      maxLength = String.valueOf(maxValue).length();
+    }
+    
+    public void onInputFinished() {
+      if (isAlarmStarted()) startAlarm();
+      Fun.saveSharedPref(context, Vars.PREF_KEY_ALARM_TEXT, getClockText());
+      
+      final View nextView = hoursField.focusSearch(View.FOCUS_FORWARD);
+      if (focusNext && nextView != null) {
+        // delay defore focusing (otherwise triggers textChanged() for the focused field)
+        nextView.post(() -> nextView.requestFocus());
+      }
+      else {
+        updateInputState();
+      }
     }
     
     public void onTextChanged(CharSequence s, int start, int before, int count) {
       if (!textWatcherEnabled) return;
-      
       String str = s.toString();
-      if (str.length() == 0 || str.equals(prevText)) return;
-      Fun.logd("onTextChanged: [" + s + "; " + start + "; " + before + "; " + count + "]");
       
-      str = str.replaceAll("[^0-9]", "");
-      
-      StringBuilder sb = new StringBuilder(str);
-      if (sb.length() > maxLength) {
-        sb.delete(maxLength, sb.length());
+      if (str.isEmpty()) {
+        editText.setText("00");
+        return;
       }
       
+      int value = 0;
       try {
-        int value = Integer.parseInt(sb.toString());
-        if (value > maxValue) {
-          sb.delete(start, start + count);
-        }
+        value = Integer.parseInt(str);
       }
       catch (NumberFormatException e) {
-        sb.replace(0, sb.length(), String.valueOf(minValue));
+        editText.setText("00");
+        return;
       }
       
-      str = sb.toString();
-      if (!s.toString().equals(str)) {
-        editText.setText(str);
-        editText.setSelection(str.length());
-      }
-      
-      int maxComplex = Integer.parseInt(String.valueOf(maxValue).substring(0, 1));
-      boolean uniqueDigit = str.length() == 1 && Integer.parseInt(str) > maxComplex;
-      
-      if (str.length() == 2 || uniqueDigit) {
-        if (uniqueDigit) editText.setText("0" + str);
-        
-        // restart alarm on time change
-        if (isAlarmStarted()) startAlarm();
-        
-        final View nextView = hoursField.focusSearch(View.FOCUS_FORWARD);
-        if (focusNext && nextView != null) {
-          // delay defore focusing (otherwise triggers textChanged() for the focused field)
-          nextView.post(() -> nextView.requestFocus());
-        }
-        else {
-          updateInputState();
+      if (value > maxValue / 10)  {
+        if (value > maxValue) value = value / 10;
+        String normText = String.format("%02d", value);
+        if (!str.equals(normText)) {
+          editText.setText(normText);
         }
       }
       
-      prevText = str;
-      
-      String clockText = getClockText();
-      if (clockText.length() == 5) {
-        Fun.saveSharedPref(context, Vars.PREF_KEY_ALARM_TEXT, clockText);
+      if (str.length() == 2) {
+        onInputFinished();
       }
     }
     
