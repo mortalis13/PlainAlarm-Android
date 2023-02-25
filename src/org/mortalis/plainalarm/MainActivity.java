@@ -239,12 +239,6 @@ public class MainActivity extends AppCompatActivity {
     minutesField.addTextChangedListener(new NumberTextWatcher(minutesField, Vars.MINUTE_MIN, Vars.MINUTE_MAX, false));
     minutesField.setImeOptions(EditorInfo.IME_ACTION_NEXT);
     
-    // hoursField.setFilters(new InputFilter[] { new NumberTextFilter(Vars.HOUR_MIN, Vars.HOUR_MAX, 2, Vars.TIME_CHARS) });
-    // minutesField.setFilters(new InputFilter[] { new NumberTextFilter(Vars.MINUTE_MIN, Vars.MINUTE_MAX, 2, Vars.TIME_CHARS) });
-    
-    // String fontPath = "fonts/Digital.ttf";
-    // Typeface typeface = Typeface.createFromAsset(getAssets(), fontPath);
-    
     soundSelector.setOnClickListener(v -> {
       updateInputState();
       selectSound();
@@ -840,51 +834,6 @@ public class MainActivity extends AppCompatActivity {
     
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
     public void afterTextChanged(Editable s) {}
-  }
-  
-  
-  class NumberTextFilter extends NumberKeyListener {
-    private int minValue;
-    private int maxValue;
-    private int maxLength;
-    private char[] chars;
-    
-    public NumberTextFilter(int minValue, int maxValue, int maxLength, char[] chars) {
-      this.minValue = minValue;
-      this.maxValue = maxValue;
-      this.maxLength = maxLength;
-      this.chars = chars;
-    }
-    
-    @Override
-    public int getInputType() {
-      return InputType.TYPE_CLASS_TEXT;
-    }
-    
-    @Override
-    protected char[] getAcceptedChars() {
-      return chars;
-    }
-    
-    private int getSelectedPos(String value) {
-      try {return Integer.parseInt(value);}
-      catch (NumberFormatException e) {}
-      return minValue;
-    }
-    
-    @Override
-    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-      CharSequence filtered = super.filter(source, start, end, dest, dstart, dend);
-      
-      if (filtered == null) {
-        String result = String.valueOf(dest.subSequence(0, dstart)) + source.subSequence(start, end) + dest.subSequence(dend, dest.length());
-        int val = getSelectedPos(result);
-        if (val > maxValue || result.length() > maxLength || result.length() == 0) return "";
-        return null;
-      }
-      
-      return filtered;
-    }
   }
   
   
