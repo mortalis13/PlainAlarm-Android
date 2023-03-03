@@ -2,12 +2,14 @@ package org.mortalis.plainalarm;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
+
 import java.util.List;
 import java.util.Collections;
 import java.util.Iterator;
@@ -62,6 +64,11 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
     Fun.logd("PlayerService.onDestroy()");
     super.onDestroy();
     if (mediaPlayer != null) mediaPlayer.release();
+    
+    // Restore the default mode
+    AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    audioManager.setSpeakerphoneOn(false);
+    audioManager.setMode(AudioManager.MODE_NORMAL);
   }
   
   @Override

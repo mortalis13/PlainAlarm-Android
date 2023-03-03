@@ -672,10 +672,6 @@ public class MainActivity extends AppCompatActivity {
   private void stopSound() {
     Fun.logd("stopSound()");
     stopService(new Intent(this, PlayerService.class));
-    
-    // Restore the default mode
-    audioManager.setSpeakerphoneOn(false);
-    audioManager.setMode(AudioManager.MODE_NORMAL);
   }
   
   
