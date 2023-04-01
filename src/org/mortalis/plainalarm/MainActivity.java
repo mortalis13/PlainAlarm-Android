@@ -424,11 +424,6 @@ public class MainActivity extends AppCompatActivity {
     }, 1000);
   }
   
-  private void setMinVolume() {
-    int alarmVolume = volumeSelector.getSelectedItemPosition();
-    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, alarmVolume, 0);
-  }
-  
   
   // ------------------------------ Main Engine ------------------------------
   private void startAlarm() {
@@ -519,7 +514,7 @@ public class MainActivity extends AppCompatActivity {
     Fun.logd("Timestamp: " + System.currentTimeMillis());
     
     isAlarmWakeup = true;
-    setMinVolume();
+    configAudioOutput();
     playSound();
     animateClock();
     
@@ -650,10 +645,6 @@ public class MainActivity extends AppCompatActivity {
   private void playSound() {
     Fun.logd("playSound()");
     
-    // Force audio output to the speaker
-    audioManager.setSpeakerphoneOn(true);
-    audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
-    
     Intent playerIntent = new Intent(this, PlayerService.class);
     boolean useSoundFolder = isUseSoundFolder();
     if (useSoundFolder) {
@@ -672,6 +663,15 @@ public class MainActivity extends AppCompatActivity {
   private void stopSound() {
     Fun.logd("stopSound()");
     stopService(new Intent(this, PlayerService.class));
+  }
+  
+  private void configAudioOutput() {
+    // Force audio output to the speaker
+    audioManager.setSpeakerphoneOn(true);
+    audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+    
+    int alarmVolume = volumeSelector.getSelectedItemPosition();
+    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, alarmVolume, 0);
   }
   
   
