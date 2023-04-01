@@ -34,7 +34,7 @@ android {
     applicationId "org.mortalis.plainalarm"
     vectorDrawables.useSupportLibrary = true
     
-    versionCode 131
+    versionCode 132
     versionName String.format('%d.%d.%d', (int)(versionCode/10/10), (int)(versionCode/10)%10, versionCode%10)
     
     minSdkVersion 16
