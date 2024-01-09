@@ -514,7 +514,6 @@ public class MainActivity extends AppCompatActivity {
     Fun.logd("Timestamp: " + System.currentTimeMillis());
     
     isAlarmWakeup = true;
-    configAudioOutput();
     playSound();
     animateClock();
     
@@ -646,6 +645,8 @@ public class MainActivity extends AppCompatActivity {
     Fun.logd("playSound()");
     
     Intent playerIntent = new Intent(this, PlayerService.class);
+    playerIntent.putExtra(Vars.EXTRA_AUDIO_VOLUME, volumeSelector.getSelectedItemPosition());
+    
     boolean useSoundFolder = isUseSoundFolder();
     if (useSoundFolder) {
       String soundFolderPath = Fun.getSharedPref(context, Vars.PREF_KEY_SOUND_FOLDER_PATH);
@@ -663,15 +664,6 @@ public class MainActivity extends AppCompatActivity {
   private void stopSound() {
     Fun.logd("stopSound()");
     stopService(new Intent(this, PlayerService.class));
-  }
-  
-  private void configAudioOutput() {
-    // Force audio output to the speaker
-    audioManager.setSpeakerphoneOn(true);
-    audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
-    
-    int alarmVolume = volumeSelector.getSelectedItemPosition();
-    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, alarmVolume, 0);
   }
   
   

@@ -22,8 +22,11 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
   private boolean soundFromFolder;
   private String soundPath;
   private String soundFolderPath;
+  private int audioVolume;
   
   private Iterator<String> filesIter;
+  
+  private AudioManager audioManager;
   
   
   @Override
@@ -34,6 +37,7 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
       soundFromFolder = intent.getBooleanExtra(Vars.EXTRA_SOUND_FROM_FOLDER, false);
       soundPath = intent.getStringExtra(Vars.EXTRA_SOUND_PATH);
       soundFolderPath = intent.getStringExtra(Vars.EXTRA_SOUND_FOLDER_PATH);
+      audioVolume = intent.getIntExtra(Vars.EXTRA_AUDIO_VOLUME, 0);
       
       if (mediaPlayer != null) mediaPlayer.release();
       mediaPlayer = new MediaPlayer();
@@ -44,6 +48,7 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
       mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
       
       createFilesIterator();
+      audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioVolume, 0);
       loadPlayerSound();
     }
     catch (Exception e) {
@@ -53,9 +58,14 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
     return START_STICKY;
   }
   
-  
   @Override
   public void onCreate() {
+    Fun.logd("PlayerService.onCreate()");
+    audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    
+    // Force audio output to the speaker
+    audioManager.setSpeakerphoneOn(true);
+    audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
     super.onCreate();
   }
   
@@ -66,7 +76,6 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
     if (mediaPlayer != null) mediaPlayer.release();
     
     // Restore the default mode
-    AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
     audioManager.setSpeakerphoneOn(false);
     audioManager.setMode(AudioManager.MODE_NORMAL);
   }

@@ -23,6 +23,7 @@ public class Vars {
   public static final String EXTRA_SOUND_PATH = "sound_path";
   public static final String EXTRA_SOUND_FOLDER_PATH = "sound_folder_path";
   public static final String EXTRA_SOUND_FROM_FOLDER = "sound_from_folder";
+  public static final String EXTRA_AUDIO_VOLUME = "audio_volume";
   
   public static final String PREFS_FILE = "plain_alarm_prefs";
   
