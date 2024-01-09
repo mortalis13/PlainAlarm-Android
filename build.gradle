@@ -1,5 +1,5 @@
-// gradle-6.7
-// jdk1.8.0_91
+// gradle-8.3
+// jdk-17
 
 apply plugin: 'com.android.application'
 
@@ -14,7 +14,7 @@ buildscript {
   }
   
   dependencies {
-    classpath 'com.android.tools.build:gradle:4.1.0'
+    classpath 'com.android.tools.build:gradle:8.1.2'
   }
 }
 
@@ -31,7 +31,7 @@ android {
   compileSdkVersion 30
   
   defaultConfig {
-    applicationId "org.mortalis.plainalarm"
+    namespace "org.mortalis.plainalarm"
     vectorDrawables.useSupportLibrary = true
     
     versionCode 132
@@ -63,8 +63,8 @@ android {
   }
   
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
   }
 
   sourceSets {
@@ -97,14 +97,14 @@ dependencies {
   implementation 'com.android.support:recyclerview-v7:27.0.2'
 }
 
+def appStart() {
+  // install allowing version downgrade: adb install -d debug.apk
+  return "adb shell am start -n ${android.namespace}/.MainActivity".split()
+}
+
 task appStart(type: Exec, dependsOn: 'installDebug') {
-  commandLine = ["adb", "shell", "monkey", "-p", "${android.defaultConfig.applicationId} 1"]
+  commandLine appStart()
 }
-
-task appStartRelease(type: Exec, dependsOn: 'installRelease') {
-  commandLine = ["adb", "shell", "monkey", "-p", "${android.defaultConfig.applicationId} 1"]
-}
-
 
 tasks.withType(JavaCompile) {
   // options.compilerArgs << '-Xlint:deprecation'
