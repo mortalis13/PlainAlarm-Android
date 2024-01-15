@@ -24,11 +24,11 @@ public class MainService {
     if (alarmStarted && timeMillis != 0) {
       AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
       Intent receiverIntent = new Intent(context, AlarmReceiver.class);
-      PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, receiverIntent, 0);
+      PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, receiverIntent, PendingIntent.FLAG_IMMUTABLE);
       
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         // >=API-21
-        PendingIntent opIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
+        PendingIntent opIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_IMMUTABLE);
         alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(timeMillis, opIntent), pendingIntent);
       }
       else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

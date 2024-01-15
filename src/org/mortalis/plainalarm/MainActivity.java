@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     
     alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
     Intent receiverIntent = new Intent(this, AlarmReceiver.class);
-    pendingIntent = PendingIntent.getBroadcast(this, 0, receiverIntent, 0);
+    pendingIntent = PendingIntent.getBroadcast(this, 0, receiverIntent, PendingIntent.FLAG_IMMUTABLE);
     
     setVolumeControlStream(AudioManager.STREAM_MUSIC);
   }
@@ -453,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
     
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       // >=API-21
-      PendingIntent opIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
+      PendingIntent opIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_IMMUTABLE);
       alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(timeMillis, opIntent), pendingIntent);
     }
     else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
