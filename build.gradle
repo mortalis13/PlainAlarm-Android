@@ -38,6 +38,7 @@ android {
     versionName String.format('%d.%d.%d', (int)(versionCode/10/10), (int)(versionCode/10)%10, versionCode%10)
     
     minSdkVersion 16
+    targetSdkVersion 33
     
     resValue "string", "app_version", versionName
   }
