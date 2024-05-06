@@ -1,3 +1,17 @@
+== Initial setup
+[Redmi MIUI 14]
+
+App -> Notifications -> Disable floating notifications and vibration
+App -> Battery -> Unrestricted
+App -> Other permissions -> Show on Lock screen
+App -> Other permissions -> Display pop-up windows while running in the background
+App -> Battery saver -> No restrictions
+
+Apps -> Permissions -> Background autostart -> Enable
+
+
+
+
 API 16
 
 android.widget.NumberPicker
