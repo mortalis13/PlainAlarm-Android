@@ -12,7 +12,7 @@ import android.util.Log;
 public class MainService {
   
   public static Context context;
-  public static int notif_current_id;
+  public static int notif_current_id = 1000;
   
   public static void startAlarm(Context context) {
     Fun.logd("MainService.startAlarm()");
@@ -41,11 +41,6 @@ public class MainService {
       
       Fun.showNotification(context, Vars.NOTIFICATION_ID, true, "Alarm Set: " + alarmTime);
     }
-  }
-  
-  public static void showNotification(String text) {
-    if (context == null) return;
-    Fun.showNotification(context, 1, false, text);
   }
   
   public static void showPlayerNotification(String text) {
