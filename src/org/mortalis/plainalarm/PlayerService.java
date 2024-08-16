@@ -49,7 +49,7 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
       
       createFilesIterator();
       audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioVolume, 0);
-      loadPlayerSound();
+      playSound();
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -62,22 +62,16 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
   public void onCreate() {
     Fun.logd("PlayerService.onCreate()");
     audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-    
-    // Force audio output to the speaker
-    audioManager.setSpeakerphoneOn(true);
-    audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
     super.onCreate();
   }
+  
   
   @Override
   public void onDestroy() {
     Fun.logd("PlayerService.onDestroy()");
     super.onDestroy();
     if (mediaPlayer != null) mediaPlayer.release();
-    
-    // Restore the default mode
-    audioManager.setSpeakerphoneOn(false);
-    audioManager.setMode(AudioManager.MODE_NORMAL);
+    setDefaultOutput();
   }
   
   @Override
@@ -106,11 +100,13 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
     Fun.logd("MediaPlayer.onCompletion()");
     mediaPlayer.stop();
     mediaPlayer.reset();
-    loadPlayerSound();
+    playSound();
   }
   
   
-  private void loadPlayerSound() {
+  private void playSound() {
+    setOutputToSpeaker();
+    
     if (filesIter != null && !filesIter.hasNext()) {
       createFilesIterator();
     }
@@ -146,6 +142,18 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
         filesIter = soundFiles.stream().iterator();
       }
     }
+  }
+  
+  private void setOutputToSpeaker() {
+    // Force audio output to the speaker
+    audioManager.setSpeakerphoneOn(true);
+    audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+  }
+  
+  private void setDefaultOutput() {
+    // Restore the default mode
+    audioManager.setSpeakerphoneOn(false);
+    audioManager.setMode(AudioManager.MODE_NORMAL);
   }
   
 }

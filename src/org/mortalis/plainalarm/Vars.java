@@ -15,7 +15,7 @@ public class Vars {
   public static final String APP_LOG_TAG = "plain_alarm";
   public static final String NOTIFICATION_TITLE = "PlainAlarm";
   public static final String PLAYER_NOTIFICATION_TITLE = "PlainAlarm";
-  public static final int NOTIFICATION_ID = 0;
+  public static final int NOTIFICATION_ID = 100;
   public static final String NOTIFICATIONS_CHANNEL_ID = "plainalarm_channel_id";
   
   public static final int APP_PERMISSION_REQUEST_ACCESS_EXTERNAL_STORAGE = 101;

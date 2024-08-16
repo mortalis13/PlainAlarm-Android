@@ -315,9 +315,6 @@ public class MainActivity extends AppCompatActivity {
   
   private void restoreState() {
     try {
-      String timeStr = Fun.getSharedPref(context, Vars.PREF_KEY_ALARM_TIMESTAMP);
-      Fun.log(".. timeStr: " + timeStr);
-      
       String alarmText = Fun.getSharedPref(context, Vars.PREF_KEY_ALARM_TEXT);
       if (alarmText == null) alarmText = Vars.DEFAULT_ALARM_TEXT;
       if (Vars.DEMO_MODE) alarmText = Vars.DEMO_TIME;

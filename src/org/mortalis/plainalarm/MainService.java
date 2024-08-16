@@ -12,7 +12,7 @@ import android.util.Log;
 public class MainService {
   
   public static Context context;
-  public static int notif_current_id = 1000;
+  private static int notif_current_id = 1000;
   
   public static void startAlarm(Context context) {
     Fun.logd("MainService.startAlarm()");
