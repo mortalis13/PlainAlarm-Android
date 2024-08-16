@@ -48,7 +48,6 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
       mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
       
       createFilesIterator();
-      audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioVolume, 0);
       playSound();
     }
     catch (Exception e) {
@@ -106,6 +105,7 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
   
   private void playSound() {
     setOutputToSpeaker();
+    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, this.audioVolume, 0);
     
     if (filesIter != null && !filesIter.hasNext()) {
       createFilesIterator();
