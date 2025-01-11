@@ -45,7 +45,7 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
       mediaPlayer.setOnErrorListener(this);
       mediaPlayer.setOnCompletionListener(this);
       
-      mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+      mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
       
       createFilesIterator();
       playSound();
@@ -70,7 +70,6 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
     Fun.logd("PlayerService.onDestroy()");
     super.onDestroy();
     if (mediaPlayer != null) mediaPlayer.release();
-    setDefaultOutput();
   }
   
   @Override
@@ -104,9 +103,6 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
   
   
   private void playSound() {
-    setOutputToSpeaker();
-    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, this.audioVolume, 0);
-    
     if (filesIter != null && !filesIter.hasNext()) {
       createFilesIterator();
     }
@@ -142,18 +138,6 @@ public class PlayerService extends Service implements MediaPlayer.OnPreparedList
         filesIter = soundFiles.stream().iterator();
       }
     }
-  }
-  
-  private void setOutputToSpeaker() {
-    // Force audio output to the speaker
-    audioManager.setSpeakerphoneOn(true);
-    audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
-  }
-  
-  private void setDefaultOutput() {
-    // Restore the default mode
-    audioManager.setSpeakerphoneOn(false);
-    audioManager.setMode(AudioManager.MODE_NORMAL);
   }
   
 }

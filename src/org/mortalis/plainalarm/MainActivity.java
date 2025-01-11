@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     Intent receiverIntent = new Intent(this, AlarmReceiver.class);
     pendingIntent = PendingIntent.getBroadcast(this, 0, receiverIntent, PendingIntent.FLAG_IMMUTABLE);
     
-    setVolumeControlStream(AudioManager.STREAM_MUSIC);
+    setVolumeControlStream(AudioManager.STREAM_ALARM);
   }
   
   @Override
@@ -361,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
   
   // ------------------------------ Actions ------------------------------
   private void initVolumeSelector() {
-    int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+    int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
     int curVolume = (int) Fun.getSharedPrefLong(context, Vars.PREF_KEY_ALARM_VOLUME);
     if (curVolume == -1) curVolume = Vars.DEFAULT_ALARM_VOLUME;
     
@@ -447,6 +447,9 @@ public class MainActivity extends AppCompatActivity {
     Fun.logd("MainActivity.startAlarm()");
     
     isAlarmWakeup = false;
+    
+    int alarmVolume = volumeSelector.getSelectedItemPosition();
+    audioManager.setStreamVolume(AudioManager.STREAM_ALARM, alarmVolume, 0);
     
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       // >=API-21
