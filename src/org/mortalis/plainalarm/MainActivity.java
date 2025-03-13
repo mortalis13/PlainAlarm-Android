@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
     panelAlarmState.setOnClickListener(v -> {
       hideSoftInput();
       
-      boolean alarmStarted = isAlarmStarted();
+      boolean alarmStarted = MainService.isAlarmStarted();
       boolean snoozeOn = Fun.getSharedPrefBool(context, Vars.PREF_KEY_SNOOZE_ON);
       if (!isAlarmWakeup || !snoozeOn) {
         updateAlarmState(!alarmStarted);
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
       
       if (!alarmStarted) {
         if (Vars.DEBUG_MODE || Vars.DEMO_MODE) {
-          setAlarmStartedPref();
+          Fun.saveSharedPref(context, Vars.PREF_KEY_ALARM_STARTED, true);
           wakeupAlarm();
           return;
         }
@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
       String presetText = (String) textView.getText();
       updateAlarmText(presetText);
       Fun.saveSharedPref(context, Vars.PREF_KEY_ALARM_TEXT, presetText);
-      if (isAlarmStarted()) startAlarm();
+      if (MainService.isAlarmStarted()) startAlarm();
     };
     
     OnLongClickListener alarmPresetLongClickListener = (v) -> {
@@ -331,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
       soundFolderPathView.setText(soundFolderPath);
       
       updateSnoozeState(Fun.getSharedPrefBool(context, Vars.PREF_KEY_SNOOZE_ON));
-      updateAlarmState(isAlarmStarted());
+      updateAlarmState(MainService.isAlarmStarted());
       
       List<String> alarmPresets = new ArrayList<>();
       for (String tag: Vars.PREF_ALARM_PRESET_TAGS) {
@@ -423,13 +423,19 @@ public class MainActivity extends AppCompatActivity {
   
   
   // ------------------------------ Main Engine ------------------------------
+  private void startAlarm(long timeMillis) {
+    this.isAlarmWakeup = false;
+
+    int alarmVolume = volumeSelector.getSelectedItemPosition();
+    audioManager.setStreamVolume(AudioManager.STREAM_ALARM, alarmVolume, 0);
+
+    MainService.startAlarm(timeMillis);
+  }
+  
   private void startAlarm() {
     int alarmHour = Integer.parseInt(hoursField.getText().toString());
     int alarmMinute = Integer.parseInt(minutesField.getText().toString());
-    startAlarm(alarmHour, alarmMinute);
-  }
-  
-  private void startAlarm(int alarmHour, int alarmMinute) {
+
     Calendar calendar = Calendar.getInstance();
     calendar.set(Calendar.HOUR_OF_DAY, alarmHour);
     calendar.set(Calendar.MINUTE, alarmMinute);
@@ -443,59 +449,22 @@ public class MainActivity extends AppCompatActivity {
     startAlarm(timeMillis);
   }
   
-  private void startAlarm(long timeMillis) {
-    Fun.logd("MainActivity.startAlarm()");
-    
-    isAlarmWakeup = false;
-    
-    int alarmVolume = volumeSelector.getSelectedItemPosition();
-    audioManager.setStreamVolume(AudioManager.STREAM_ALARM, alarmVolume, 0);
-    
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      // >=API-21
-      PendingIntent opIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_IMMUTABLE);
-      alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(timeMillis, opIntent), pendingIntent);
-    }
-    else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      // >=API-19
-      alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
-    }
-    else {
-      alarmManager.set(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
-    }
-    
-    Fun.saveSharedPref(context, Vars.PREF_KEY_ALARM_TIME_MILLIS, timeMillis);
-    setAlarmStartedPref();
-    
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTimeInMillis(timeMillis);
-    String hours = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
-    String minutes = String.valueOf(calendar.get(Calendar.MINUTE));
-    
-    String timeStr = String.format("Alarm Time: %s:%s = %d", hours, minutes, timeMillis);
-    Fun.logd(timeStr);
-    Fun.saveSharedPref(context, Vars.PREF_KEY_ALARM_TIMESTAMP, timeStr);
-    
-    String alarmTime = getClockText(hours, minutes);
-    Fun.showNotification(context, Vars.NOTIFICATION_ID, true, "Alarm Set: " + alarmTime);
-  }
-  
   private void snoozeAlarm(int seconds) {
     Fun.logd("snoozeAlarm(): " + seconds);
     Calendar calendar = Calendar.getInstance();
     calendar.add(Calendar.SECOND, seconds);
+    
     long timeMillis = calendar.getTimeInMillis();
     startAlarm(timeMillis);
   }
   
   private void stopAlarm() {
-    if (alarmManager != null) alarmManager.cancel(pendingIntent);
+    MainService.stopAlarm();
+    
     if (alarmWakeupAnimation != null) alarmWakeupAnimation.stop();
     imageAlarmWakeupAnimation.setVisibility(View.GONE);
     
-    stopSound();
-    unsetAlarmStartedPref();
-    Fun.cancelNotification(context, Vars.NOTIFICATION_ID);
+    stopService(new Intent(this, PlayerService.class));
     
     boolean snoozeOn = Fun.getSharedPrefBool(context, Vars.PREF_KEY_SNOOZE_ON);
     if (snoozeOn && isAlarmWakeup) {
@@ -661,11 +630,6 @@ public class MainActivity extends AppCompatActivity {
     startService(playerIntent);
   }
   
-  private void stopSound() {
-    Fun.logd("stopSound()");
-    stopService(new Intent(this, PlayerService.class));
-  }
-  
   
   private void updateInputState() {
     InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -696,16 +660,6 @@ public class MainActivity extends AppCompatActivity {
     View v = getWindow().getDecorView().getRootView();
     if (inputMethodManager == null || v == null) return;
     inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-  }
-  
-  private boolean isAlarmStarted() {
-    return Fun.getSharedPrefBool(context, Vars.PREF_KEY_ALARM_STARTED);
-  }
-  private void setAlarmStartedPref() {
-    Fun.saveSharedPref(context, Vars.PREF_KEY_ALARM_STARTED, true);
-  }
-  private void unsetAlarmStartedPref() {
-    Fun.saveSharedPref(context, Vars.PREF_KEY_ALARM_STARTED, false);
   }
   
   private boolean isUseSoundFolder() {
@@ -752,7 +706,7 @@ public class MainActivity extends AppCompatActivity {
     }
     
     public void onInputFinished() {
-      if (isAlarmStarted()) startAlarm();
+      if (MainService.isAlarmStarted()) startAlarm();
       Fun.saveSharedPref(context, Vars.PREF_KEY_ALARM_TEXT, getClockText());
       
       final View nextView = hoursField.focusSearch(View.FOCUS_FORWARD);

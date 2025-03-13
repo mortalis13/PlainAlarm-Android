@@ -10,7 +10,7 @@ public class AlarmBootReceiver extends BroadcastReceiver {
   @Override
   public void onReceive(Context context, Intent intent) {
     Fun.logd("AlarmBootReceiver.onReceive()");
-    MainService.startAlarm(context);
+    MainService.restoreAlarm(context);
   }
   
 }

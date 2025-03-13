@@ -31,7 +31,6 @@ public class Vars {
   public static final String PREF_KEY_SOUND_FOLDER_PATH = "PREF_KEY_SOUND_FOLDER_PATH";
   public static final String PREF_KEY_USE_SOUND_FOLDER = "PREF_KEY_USE_SOUND_FOLDER";
   public static final String PREF_KEY_ALARM_TEXT = "PREF_KEY_ALARM_TEXT";
-  public static final String PREF_KEY_ALARM_TIMESTAMP = "PREF_KEY_ALARM_TIMESTAMP";
   public static final String PREF_KEY_ALARM_STARTED = "PREF_KEY_ALARM_STARTED";
   public static final String PREF_KEY_ALARM_PRESET = "PREF_KEY_ALARM_PRESET";
   public static final String PREF_KEY_ALARM_TIME_MILLIS = "PREF_KEY_ALARM_TIME_MILLIS";
