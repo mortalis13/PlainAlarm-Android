@@ -20,6 +20,9 @@ public class MainService {
   public static void startAlarm(long timeMillis) {
     Fun.logd("MainService.startAlarm()");
     
+    // Resetting the notification, as in a sequence snooze + time change + wakeup + stop it stays in the fixed state
+    Fun.cancelNotification(context, Vars.NOTIFICATION_ID);
+    
     AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     Intent receiverIntent = new Intent(context, AlarmReceiver.class);
     PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, receiverIntent, PendingIntent.FLAG_IMMUTABLE);
