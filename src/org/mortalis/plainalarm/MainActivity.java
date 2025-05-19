@@ -12,7 +12,6 @@ import android.os.Environment;
 import android.net.Uri;
 import android.provider.Settings;
 import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.NotificationChannel;
 import android.content.IntentFilter;
 import android.content.Context;
@@ -70,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
   private FilePickerDialog filePickerDialog;
   
   private Context context;
-  private AlarmManager alarmManager;
-  private PendingIntent pendingIntent;
   private AudioManager audioManager;
   
   private View parentView;
@@ -116,10 +113,6 @@ public class MainActivity extends AppCompatActivity {
     configUI();
     restoreState();
     
-    alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-    Intent receiverIntent = new Intent(this, AlarmReceiver.class);
-    pendingIntent = PendingIntent.getBroadcast(this, 0, receiverIntent, PendingIntent.FLAG_IMMUTABLE);
-    
     setVolumeControlStream(AudioManager.STREAM_ALARM);
   }
   
@@ -162,16 +155,41 @@ public class MainActivity extends AppCompatActivity {
   // -----------------------------------------------------------
   
   private void requestAppPermissions(Context context) {
-    boolean isWriteGranted = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-    
-    if (!isWriteGranted) {
-      requestPermissions(new String[] {
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-      }, Vars.APP_PERMISSION_REQUEST_ACCESS_EXTERNAL_STORAGE);
+    if (Build.VERSION.SDK_INT < 33) {
+      String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+      boolean isGranted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
+      if (!isGranted) {
+        requestPermissions(new String[] { permission }, Vars.APP_PERMISSION_REQUEST_ACCESS_EXTERNAL_STORAGE);
+      }
+    }
+    else {
+      var permissions = new String[] {
+          Manifest.permission.READ_MEDIA_AUDIO,
+          Manifest.permission.POST_NOTIFICATIONS
+      };
+      
+      boolean permissionsGranted = true;
+      for (String permission: permissions) {
+        if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+          permissionsGranted = false;
+        }
+      }
+      
+      if (!permissionsGranted) {
+        requestPermissions(permissions, Vars.APP_PERMISSION_REQUEST_CODE);
+      }
     }
     
-    if (!Settings.canDrawOverlays(context)){
-      Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+    var packageUri = Uri.parse("package:" + getPackageName());
+    
+    if (!Settings.canDrawOverlays(context)) {
+      Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, packageUri);
+      startActivity(intent);
+    }
+    
+    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+    if (!alarmManager.canScheduleExactAlarms()) {
+      Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, packageUri);
       startActivity(intent);
     }
   }
