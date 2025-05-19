@@ -2,11 +2,11 @@ package org.mortalis.plainalarm;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.WakefulBroadcastReceiver;
+import android.content.BroadcastReceiver;
 import android.util.Log;
 
 
-public class AlarmReceiver extends WakefulBroadcastReceiver {
+public class AlarmReceiver extends BroadcastReceiver {
   
   public static final String ALARM_WAKEUP_INTENT = "ALARM_WAKEUP_INTENT"; 
   

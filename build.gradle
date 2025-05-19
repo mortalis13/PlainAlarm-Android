@@ -5,12 +5,9 @@ apply plugin: 'com.android.application'
 
 buildscript {
   repositories {
+    gradlePluginPortal()
     google()
-    jcenter()
-    mavenLocal()
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
+    mavenCentral()
   }
   
   dependencies {
@@ -21,7 +18,7 @@ buildscript {
 allprojects {
   repositories {
     google()
-    jcenter()
+    mavenCentral()
   }
 }
 
@@ -31,7 +28,7 @@ android {
   compileSdkVersion 34
   
   defaultConfig {
-    namespace "org.mortalis.plainalarm"
+    namespace 'org.mortalis.plainalarm'
     vectorDrawables.useSupportLibrary = true
     
     versionCode 150
@@ -40,15 +37,15 @@ android {
     minSdkVersion 16
     targetSdkVersion 33
     
-    resValue "string", "app_version", versionName
+    resValue 'string', 'app_version', versionName
   }
   
   signingConfigs {
     release {
-      storeFile file("release/plainalarm-release-key.jks")
-      storePassword "plainalarm"
-      keyAlias "plainalarm-alias"
-      keyPassword "plainalarm"
+      storeFile file('release/plainalarm-release-key.jks')
+      storePassword 'plainalarm'
+      keyAlias 'plainalarm-alias'
+      keyPassword 'plainalarm'
     }
   }
   
@@ -83,7 +80,7 @@ android {
   lintOptions {
     // checkReleaseBuilds false
     // abortOnError false
-    disable "ReferenceType"
+    disable 'ReferenceType'
   }
 }
 
@@ -91,15 +88,14 @@ dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation fileTree(dir: 'libs', include: ['*.aar'])
   
-  implementation 'com.android.support:appcompat-v7:27.0.2'
-  implementation 'com.android.support:support-v4:27.0.2'
-  
-  implementation 'com.android.support:recyclerview-v7:27.0.2'
+  implementation 'androidx.appcompat:appcompat:1.6.1'
+  implementation 'androidx.media:media:1.6.0'
+  implementation 'androidx.recyclerview:recyclerview:1.3.1'
 }
 
 def appStart() {
   // install allowing version downgrade: adb install -d debug.apk
-  return "adb shell am start -n ${android.namespace}/.MainActivity".split()
+  return String.format('adb shell am start -n %s/.MainActivity', android.namespace).split()
 }
 
 task appStart(type: Exec, dependsOn: 'installDebug') {

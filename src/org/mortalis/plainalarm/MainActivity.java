@@ -25,9 +25,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.graphics.drawable.Animatable;
-import android.support.graphics.drawable.Animatable2Compat.AnimationCallback;
-import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.text.Editable;
@@ -47,10 +44,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.view.WindowManager;
-import android.support.v4.content.ContextCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.app.NotificationManager;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat.AnimationCallback;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 
 public class MainActivity extends AppCompatActivity {
