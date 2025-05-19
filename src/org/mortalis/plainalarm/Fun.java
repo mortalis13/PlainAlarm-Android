@@ -10,7 +10,9 @@ import java.io.FileOutputStream;
 
 import org.apache.commons.io.FilenameUtils;
 
+import android.app.PendingIntent;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -252,38 +254,43 @@ public class Fun {
   }
   
   public static void showNotification(Context context, int id, boolean fixed, String text) {
-    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, Vars.NOTIFICATIONS_CHANNEL_ID);
+    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Vars.NOTIFICATIONS_CHANNEL_ID);
     Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
     
-    mBuilder.setSmallIcon(R.drawable.ic_notifications_none_white_24dp);
-    mBuilder.setLargeIcon(largeIcon);
-    mBuilder.setOngoing(fixed);
+    builder.setSmallIcon(R.drawable.ic_notifications_none_white_24dp);
+    builder.setLargeIcon(largeIcon);
+    builder.setOngoing(fixed);
     
-    mBuilder.setContentTitle(Vars.NOTIFICATION_TITLE);
-    mBuilder.setContentText(text);
+    builder.setContentTitle(Vars.NOTIFICATION_TITLE);
+    builder.setContentText(text);
     
-    NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-    mNotificationManager.notify(id, mBuilder.build());
+    Intent intent = new Intent(context, MainActivity.class);
+    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    
+    builder.setContentIntent(pendingIntent);
+    
+    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    notificationManager.notify(id, builder.build());
   }
   
   public static void showPlayerNotification(Context context, int id, String text) {
-    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, Vars.NOTIFICATIONS_CHANNEL_ID);
+    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Vars.NOTIFICATIONS_CHANNEL_ID);
     Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
     
-    mBuilder.setSmallIcon(R.drawable.ic_notifications_white_24dp);
-    mBuilder.setLargeIcon(largeIcon);
-    mBuilder.setOngoing(false);
+    builder.setSmallIcon(R.drawable.ic_notifications_white_24dp);
+    builder.setLargeIcon(largeIcon);
+    builder.setOngoing(false);
     
-    mBuilder.setContentTitle(Vars.PLAYER_NOTIFICATION_TITLE);
-    mBuilder.setContentText(text);
+    builder.setContentTitle(Vars.PLAYER_NOTIFICATION_TITLE);
+    builder.setContentText(text);
     
-    NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-    mNotificationManager.notify(id, mBuilder.build());
+    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    notificationManager.notify(id, builder.build());
   }
   
   public static void cancelNotification(Context context, int id) {
-    NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-    mNotificationManager.cancel(id);
+    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    notificationManager.cancel(id);
   }
   
   public static void screenWakeup(Context context) {
