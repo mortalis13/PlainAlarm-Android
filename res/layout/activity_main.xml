@@ -295,7 +295,6 @@
       android:layout_height="match_parent"
       android:orientation="horizontal"
       android:gravity="center"
-      android:background="@drawable/alarm_switcher_background_start"
     >
       <ImageView
         android:id="@+id/imageAlarmWakeupAnimation"
