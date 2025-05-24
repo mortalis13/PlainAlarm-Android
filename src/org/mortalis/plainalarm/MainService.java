@@ -50,6 +50,13 @@ public class MainService {
     Fun.logd(String.format("Alarm Time: %s = %d", alarmTime, timeMillis));
     
     Fun.showNotification(context, Vars.NOTIFICATION_ID, true, "Alarm Set: " + alarmTime);
+    
+    ComponentName receiver = new ComponentName(context, AlarmBootReceiver.class);
+    PackageManager pm = context.getPackageManager();
+
+    pm.setComponentEnabledSetting(receiver,
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP);
   }
   
   public static void stopAlarm() {
