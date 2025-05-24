@@ -297,7 +297,6 @@ public class Fun {
     PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
     int wl_flags = PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE;
     PowerManager.WakeLock wl = pm.newWakeLock(wl_flags, "ScreenWakeupTag");
-    // wl.acquire(2000);
     wl.acquire();
     wl.release();
   }
